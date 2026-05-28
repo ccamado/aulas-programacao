@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 14/05 - Funções com Decisão</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 16px; color: #e8eaf6; }
+  .nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; background: #1a1d2e; padding: 10px 20px; border-radius: 50px; border: 1px solid #2d3154; }
+  .nav button { background: #0891b2; color: white; border: none; border-radius: 50px; padding: 8px 20px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .nav button:hover { background: #06b6d4; }
+  .nav button:disabled { background: #2d3154; color: #555; cursor: default; }
+  .slide-counter { font-size: 13px; color: #7c83c8; font-weight: 700; min-width: 60px; text-align: center; }
+  .slide { display: none; width: 100%; max-width: 920px; min-height: 520px; border-radius: 16px; padding: 44px 52px; position: relative; overflow: hidden; }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .s-capa { background: linear-gradient(135deg, #0c1a2e 0%, #0a2444 50%, #0c3460 100%); border: 1px solid #0891b2; text-align: center; align-items: center; }
+  .badge { display: inline-block; background: #0891b2; color: white; padding: 6px 18px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .s-capa h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 12px; }
+  .s-capa h1 span { color: #38bdf8; }
+  .s-capa .sub { font-size: 15px; color: #7c83c8; margin-bottom: 28px; }
+  .pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pills span { background: rgba(8,145,178,0.2); border: 1px solid #0891b2; color: #38bdf8; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+  .data-tag { position: absolute; bottom: 20px; right: 30px; font-size: 12px; color: #0891b2; font-weight: 700; }
+
+  .s-content { background: #1a1d2e; border: 1px solid #2d3154; }
+  .slide-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #0891b2; margin-bottom: 8px; }
+  .slide-h { font-size: 27px; font-weight: 900; color: white; margin-bottom: 22px; border-bottom: 2px solid #2d3154; padding-bottom: 14px; }
+  .slide-h span { color: #38bdf8; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px 18px; }
+  .card .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #38bdf8; text-transform: uppercase; margin-bottom: 10px; }
+  .card ul { list-style: none; }
+  .card ul li { font-size: 13px; color: #c7cbe8; padding: 5px 0; border-bottom: 1px solid #1e2140; display: flex; align-items: flex-start; gap: 8px; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: '▶'; font-size: 9px; color: #0891b2; margin-top: 4px; flex-shrink: 0; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #0891b2; border-radius: 10px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.8; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 8px 0; }
+  .kw { color: #38bdf8; font-weight: 600; }
+  .fn { color: #818cf8; }
+  .str { color: #86efac; }
+  .num { color: #fbbf24; }
+  .cm { color: #4a5280; font-style: italic; }
+
+  .info { background: rgba(8,145,178,0.1); border: 1px solid #0891b2; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c7cbe8; margin-top: 10px; }
+  .info strong { color: #38bdf8; }
+
+  .ag { display: flex; align-items: center; gap: 16px; padding: 13px 16px; background: #0f1117; border: 1px solid #2d3154; border-radius: 10px; margin-bottom: 10px; }
+  .ag-n { background: #0891b2; color: white; font-weight: 900; font-size: 15px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ag strong { color: white; font-size: 14px; display: block; }
+  .ag span { color: #7c83c8; font-size: 12px; }
+
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cmp-c { border-radius: 12px; padding: 16px 18px; }
+  .cmp-c.vermelho { background: rgba(239,68,68,0.08); border: 1px solid #ef4444; }
+  .cmp-c.verde { background: rgba(52,211,153,0.08); border: 1px solid #34d399; }
+  .cmp-c .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .cmp-c.vermelho .ct { color: #ef4444; }
+  .cmp-c.verde .ct { color: #34d399; }
+
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl th { background: #0891b2; color: white; padding: 9px 12px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid #2d3154; color: #c7cbe8; vertical-align: top; }
+  .tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .tbl code { font-family: 'Fira Code', monospace; color: #38bdf8; font-size: 12px; }
+
+  .url-box { background: #090c14; border: 1px solid #34d399; border-radius: 8px; padding: 12px 18px; font-family: 'Fira Code', monospace; font-size: 16px; color: #34d399; text-align: center; margin: 12px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .snum { background: #0c1a2e; border: 2px solid #0891b2; color: #38bdf8; font-weight: 900; font-size: 13px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step strong { color: white; font-size: 13px; display: block; margin-bottom: 3px; }
+  .step span { color: #7c83c8; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button id="btnP" onclick="go(-1)" disabled>← Anterior</button>
+  <span class="slide-counter" id="cnt">1 / 8</span>
+  <button id="btnN" onclick="go(1)">Próximo →</button>
+</div>
+
+<!-- S1 CAPA -->
+<div class="slide s-capa active">
+  <div class="badge">14/05/2026 · 3º Ano A</div>
+  <h1>Funções com <span>Decisão</span><br>e Parâmetros</h1>
+  <div class="sub">UCII – Programação Aplicada · Prof. Claudio Amado</div>
+  <div class="pills">
+    <span>🔁 Revisão: def e return</span>
+    <span>🆕 Parâmetro x Argumento</span>
+    <span>🆕 if/else dentro de funções</span>
+  </div>
+  <div class="data-tag">CEP Ezequiel Ferreira Lima</div>
+</div>
+
+<!-- S2 AGENDA -->
+<div class="slide s-content">
+  <div class="slide-tag">Hoje na aula</div>
+  <div class="slide-h">O que vamos ver <span>hoje?</span></div>
+  <div class="ag"><div class="ag-n">1</div><div><strong>Revisão rápida — Funções (07/05)</strong><span>def, return, chamada de função</span></div></div>
+  <div class="ag"><div class="ag-n">2</div><div><strong>Parâmetro x Argumento</strong><span>Qual é a diferença? Por que importa?</span></div></div>
+  <div class="ag"><div class="ag-n">3</div><div><strong>Funções com decisão — if/else</strong><span>Função desconto(preco) com condição</span></div></div>
+  <div class="ag"><div class="ag-n">4</div><div><strong>Prática individual</strong><span>classificar_idade(idade) + testes</span></div></div>
+</div>
+
+<!-- S3 REVISAO RAPIDA -->
+<div class="slide s-content">
+  <div class="slide-tag">Revisão · 07/05</div>
+  <div class="slide-h">O que já sabemos sobre <span>funções?</span></div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># Estrutura básica de uma função</span>
+<span class="kw">def</span> <span class="fn">nome_da_funcao</span>(parametro):
+    <span class="cm"># corpo da função</span>
+    resultado = parametro * <span class="num">2</span>
+    <span class="kw">return</span> resultado
+
+<span class="cm"># Chamando a função</span>
+x = <span class="fn">nome_da_funcao</span>(<span class="num">5</span>)
+<span class="fn">print</span>(x)  <span class="cm"># 10</span></div>
+    </div>
+    <div class="card">
+      <div class="ct">📌 Lembra?</div>
+      <ul>
+        <li><code>def</code> cria a função</li>
+        <li>O nome deve ser descritivo</li>
+        <li><code>return</code> devolve o resultado</li>
+        <li>Sem <code>return</code>, a função devolve <code>None</code></li>
+        <li>Função só roda quando é chamada</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Hoje:</strong> vamos adicionar <em>decisões</em> dentro das funções!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 PARAMETRO X ARGUMENTO -->
+<div class="slide s-content">
+  <div class="slide-tag">Conceito importante</div>
+  <div class="slide-h"><span>Parâmetro</span> x <span>Argumento</span> — qual a diferença?</div>
+  <div class="cmp">
+    <div class="cmp-c vermelho">
+      <div class="ct">📌 Parâmetro — na definição</div>
+      <div class="code" style="font-size:13px"><span class="kw">def</span> <span class="fn">dobro</span>(<span style="color:#ef4444;font-weight:700">x</span>):
+    <span class="kw">return</span> <span style="color:#ef4444;font-weight:700">x</span> * <span class="num">2</span>
+
+<span class="cm"># "x" é o PARÂMETRO</span>
+<span class="cm"># é só um nome/espaço reservado</span></div>
+      <div class="info" style="border-color:#ef4444; background:rgba(239,68,68,0.08); margin-top:8px">
+        Parâmetro = variável que a função <strong style="color:#ef4444">espera receber</strong>
+      </div>
+    </div>
+    <div class="cmp-c verde">
+      <div class="ct">🚀 Argumento — na chamada</div>
+      <div class="code" style="font-size:13px">resultado = <span class="fn">dobro</span>(<span style="color:#34d399;font-weight:700">8</span>)
+<span class="fn">print</span>(resultado)  <span class="cm"># 16</span>
+
+<span class="cm"># "8" é o ARGUMENTO</span>
+<span class="cm"># é o valor real passado</span></div>
+      <div class="info" style="border-color:#34d399; background:rgba(52,211,153,0.08); margin-top:8px">
+        Argumento = valor <strong style="color:#34d399">enviado</strong> para a função
+      </div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:14px; text-align:center">
+    <strong>Resumo:</strong> Parâmetro é o "formulário em branco" · Argumento é o "formulário preenchido" 📝
+  </div>
+</div>
+
+<!-- S5 FUNCAO COM IF/ELSE -->
+<div class="slide s-content">
+  <div class="slide-tag">Conteúdo novo</div>
+  <div class="slide-h">Função <span>desconto()</span> — com decisão</div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># Função com if/else dentro</span>
+<span class="kw">def</span> <span class="fn">desconto</span>(preco):
+    <span class="kw">if</span> preco > <span class="num">100</span>:
+        novo_preco = preco * <span class="num">0.9</span>
+        <span class="kw">return</span> novo_preco
+    <span class="kw">else</span>:
+        <span class="kw">return</span> preco
+
+<span class="cm"># Testando</span>
+<span class="fn">print</span>(<span class="fn">desconto</span>(<span class="num">150</span>))  <span class="cm"># 135.0</span>
+<span class="fn">print</span>(<span class="fn">desconto</span>(<span class="num">80</span>))   <span class="cm"># 80</span></div>
+      <div class="code"><span class="cm"># Versão mais enxuta</span>
+<span class="kw">def</span> <span class="fn">desconto</span>(preco):
+    <span class="kw">if</span> preco > <span class="num">100</span>:
+        <span class="kw">return</span> preco * <span class="num">0.9</span>
+    <span class="kw">return</span> preco  <span class="cm"># else implícito</span></div>
+    </div>
+    <div class="card">
+      <div class="ct">📌 Como funciona</div>
+      <ul>
+        <li>A função recebe o <strong>preço</strong> como parâmetro</li>
+        <li>Verifica se o preço é maior que 100</li>
+        <li>Se sim: aplica 10% de desconto e retorna</li>
+        <li>Se não: retorna o preço original</li>
+        <li>Pode ter <strong>vários return</strong> em ramos diferentes</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Importante:</strong> quando o Python executa um <code>return</code>, a função termina imediatamente!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 PRATICA: CLASSIFICAR IDADE -->
+<div class="slide s-content">
+  <div class="slide-tag">Prática individual</div>
+  <div class="slide-h">Exercício: <span>classificar_idade()</span></div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># Crie a função classificar_idade</span>
+<span class="cm"># Regras:</span>
+<span class="cm"># idade < 12  → "Criança"</span>
+<span class="cm"># idade < 18  → "Adolescente"</span>
+<span class="cm"># caso contrário → "Adulto"</span>
+
+<span class="kw">def</span> <span class="fn">classificar_idade</span>(idade):
+    <span class="kw">if</span> idade < <span class="num">12</span>:
+        <span class="kw">return</span> <span class="str">"Criança"</span>
+    <span class="kw">elif</span> idade < <span class="num">18</span>:
+        <span class="kw">return</span> <span class="str">"Adolescente"</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="str">"Adulto"</span>
+
+<span class="cm"># Testes — rode e verifique!</span>
+<span class="fn">print</span>(<span class="fn">classificar_idade</span>(<span class="num">8</span>))   <span class="cm"># Criança</span>
+<span class="fn">print</span>(<span class="fn">classificar_idade</span>(<span class="num">15</span>))  <span class="cm"># Adolescente</span>
+<span class="fn">print</span>(<span class="fn">classificar_idade</span>(<span class="num">25</span>))  <span class="cm"># Adulto</span></div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Roteiro</div>
+      <ul>
+        <li>Digite a função no Trinket</li>
+        <li>Execute e confira os 3 testes</li>
+        <li>Teste com sua própria idade</li>
+        <li>Teste com idade = 12 e 18 — o que acontece?</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Desafio:</strong> crie também <code>aprovado(nota)</code> que retorna "Aprovado" se nota ≥ 6, "Recuperação" se ≥ 4, e "Reprovado" caso contrário.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 RESUMO PARA CADERNO -->
+<div class="slide s-content">
+  <div class="slide-tag">📓 Para o caderno</div>
+  <div class="slide-h">Resumo: <span>Funções com Decisão</span></div>
+  <table class="tbl">
+    <tr><th>Conceito</th><th>O que é</th><th>Exemplo</th></tr>
+    <tr><td><strong>parâmetro</strong></td><td>Variável na definição da função</td><td><code>def desconto(preco):</code> → preco é parâmetro</td></tr>
+    <tr><td><strong>argumento</strong></td><td>Valor passado na chamada</td><td><code>desconto(150)</code> → 150 é argumento</td></tr>
+    <tr><td><strong>if dentro de função</strong></td><td>Decisão que muda o retorno</td><td><code>if preco > 100: return preco * 0.9</code></td></tr>
+    <tr><td><strong>elif</strong></td><td>Senão se — mais de 2 casos</td><td><code>elif idade &lt; 18: return "Adolescente"</code></td></tr>
+    <tr><td><strong>múltiplos return</strong></td><td>Cada ramo do if pode ter seu return</td><td>Função termina no primeiro return executado</td></tr>
+    <tr><td><strong>return implícito</strong></td><td>return sem else antes</td><td><code>if x > 0: return x·return 0</code></td></tr>
+  </table>
+</div>
+
+<!-- S8 LAB -->
+<div class="slide s-content">
+  <div class="slide-tag">🧪 Laboratório</div>
+  <div class="slide-h">Prática no <span>trinket.io/python3</span></div>
+  <div class="url-box">https://trinket.io/python3</div>
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <div class="step"><div class="snum">1</div><div><strong>Função desconto(preco)</strong><span>Aplica 10% se preco > 100. Teste com 50, 100 e 150.</span></div></div>
+      <div class="step"><div class="snum">2</div><div><strong>Função classificar_idade(idade)</strong><span>Criança / Adolescente / Adulto. Teste com 8, 15 e 30.</span></div></div>
+      <div class="step"><div class="snum">3</div><div><strong>Função aprovado(nota)</strong><span>Aprovado ≥ 6 / Recuperação ≥ 4 / Reprovado. Teste com 3, 5 e 8.</span></div></div>
+      <div class="step"><div class="snum">4</div><div><strong>Desafio</strong><span>Crie um programa principal que usa as 3 funções juntas.</span></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Dicas</div>
+      <ul>
+        <li>Sem login, sem instalação</li>
+        <li>▶ Run para executar</li>
+        <li>Leia os erros em vermelho</li>
+        <li>Termine cada função antes de avançar</li>
+        <li>Dúvida? chame o professor</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  function go(d) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + d));
+    slides[cur].classList.add('active');
+    document.getElementById('cnt').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('btnP').disabled = cur === 0;
+    document.getElementById('btnN').disabled = cur === total - 1;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+</script>
+</body>
+</html>
