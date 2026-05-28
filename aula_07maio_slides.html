@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 07/05 - Funções: def e return</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 16px; color: #e8eaf6; }
+  .nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; background: #1a1d2e; padding: 10px 20px; border-radius: 50px; border: 1px solid #2d3154; }
+  .nav button { background: #b45309; color: white; border: none; border-radius: 50px; padding: 8px 20px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .nav button:hover { background: #d97706; }
+  .nav button:disabled { background: #2d3154; color: #555; cursor: default; }
+  .slide-counter { font-size: 13px; color: #7c83c8; font-weight: 700; min-width: 60px; text-align: center; }
+  .slide { display: none; width: 100%; max-width: 920px; min-height: 520px; border-radius: 16px; padding: 44px 52px; position: relative; overflow: hidden; }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .s-capa { background: linear-gradient(135deg, #1c1000 0%, #2a1800 50%, #3d2200 100%); border: 1px solid #b45309; text-align: center; align-items: center; }
+  .badge { display: inline-block; background: #b45309; color: white; padding: 6px 18px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .s-capa h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 12px; }
+  .s-capa h1 span { color: #fbbf24; }
+  .s-capa .sub { font-size: 15px; color: #7c83c8; margin-bottom: 28px; }
+  .pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pills span { background: rgba(180,83,9,0.2); border: 1px solid #b45309; color: #fbbf24; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+  .data-tag { position: absolute; bottom: 20px; right: 30px; font-size: 12px; color: #b45309; font-weight: 700; }
+
+  .s-content { background: #1a1d2e; border: 1px solid #2d3154; }
+  .slide-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #b45309; margin-bottom: 8px; }
+  .slide-h { font-size: 27px; font-weight: 900; color: white; margin-bottom: 22px; border-bottom: 2px solid #2d3154; padding-bottom: 14px; }
+  .slide-h span { color: #fbbf24; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px 18px; }
+  .card .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #fbbf24; text-transform: uppercase; margin-bottom: 10px; }
+  .card ul { list-style: none; }
+  .card ul li { font-size: 13px; color: #c7cbe8; padding: 5px 0; border-bottom: 1px solid #1e2140; display: flex; align-items: flex-start; gap: 8px; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: '▶'; font-size: 9px; color: #b45309; margin-top: 4px; flex-shrink: 0; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #b45309; border-radius: 10px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.8; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 8px 0; }
+  .kw { color: #fbbf24; font-weight: 600; }
+  .fn { color: #38bdf8; }
+  .str { color: #86efac; }
+  .num { color: #f472b6; }
+  .cm { color: #4a5280; font-style: italic; }
+
+  .info { background: rgba(180,83,9,0.1); border: 1px solid #b45309; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c7cbe8; margin-top: 10px; }
+  .info strong { color: #fbbf24; }
+
+  .ag { display: flex; align-items: center; gap: 16px; padding: 13px 16px; background: #0f1117; border: 1px solid #2d3154; border-radius: 10px; margin-bottom: 10px; }
+  .ag-n { background: #b45309; color: white; font-weight: 900; font-size: 15px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ag strong { color: white; font-size: 14px; display: block; }
+  .ag span { color: #7c83c8; font-size: 12px; }
+
+  /* Anatomia da função */
+  .anatomia { background: #090c14; border: 1px solid #2d3154; border-radius: 12px; padding: 20px 24px; font-family: 'Fira Code', monospace; font-size: 14px; line-height: 2.2; }
+  .anot { display: inline-block; background: #1e2140; border: 1px solid #b45309; border-radius: 4px; padding: 1px 8px; font-family: 'Nunito', sans-serif; font-size: 11px; font-weight: 700; color: #fbbf24; margin-left: 8px; vertical-align: middle; }
+
+  /* return vs print */
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cmp-c { border-radius: 12px; padding: 16px 18px; }
+  .cmp-c.laranja { background: rgba(180,83,9,0.08); border: 1px solid #b45309; }
+  .cmp-c.verde   { background: rgba(52,211,153,0.08); border: 1px solid #34d399; }
+  .cmp-c .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .cmp-c.laranja .ct { color: #fbbf24; }
+  .cmp-c.verde .ct   { color: #34d399; }
+
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl th { background: #b45309; color: white; padding: 9px 12px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid #2d3154; color: #c7cbe8; vertical-align: top; }
+  .tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .tbl code { font-family: 'Fira Code', monospace; color: #fbbf24; font-size: 12px; }
+
+  .url-box { background: #090c14; border: 1px solid #34d399; border-radius: 8px; padding: 12px 18px; font-family: 'Fira Code', monospace; font-size: 16px; color: #34d399; text-align: center; margin: 12px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .snum { background: #1c1000; border: 2px solid #b45309; color: #fbbf24; font-weight: 900; font-size: 13px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step strong { color: white; font-size: 13px; display: block; margin-bottom: 3px; }
+  .step span { color: #7c83c8; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button id="btnP" onclick="go(-1)" disabled>← Anterior</button>
+  <span class="slide-counter" id="cnt">1 / 8</span>
+  <button id="btnN" onclick="go(1)">Próximo →</button>
+</div>
+
+<!-- S1 CAPA -->
+<div class="slide s-capa active">
+  <div class="badge">07/05/2026 · 3º Ano A</div>
+  <h1>Funções:<br><span>def</span> e <span>return</span></h1>
+  <div class="sub">UCII – Programação Aplicada · Prof. Claudio Amado</div>
+  <div class="pills">
+    <span>🆕 Por que usar funções?</span>
+    <span>🆕 Sintaxe: def</span>
+    <span>🆕 return vs print</span>
+    <span>🆕 Prática individual</span>
+  </div>
+  <div class="data-tag">CEP Ezequiel Ferreira Lima</div>
+</div>
+
+<!-- S2 AGENDA -->
+<div class="slide s-content">
+  <div class="slide-tag">Hoje na aula</div>
+  <div class="slide-h">O que vamos ver <span>hoje?</span></div>
+  <div class="ag"><div class="ag-n">1</div><div><strong>Por que usar funções?</strong><span>Organização e reaproveitamento de código</span></div></div>
+  <div class="ag"><div class="ag-n">2</div><div><strong>Sintaxe — def e chamada</strong><span>Como criar e como usar uma função</span></div></div>
+  <div class="ag"><div class="ag-n">3</div><div><strong>return vs print</strong><span>Qual a diferença? Quando usar cada um?</span></div></div>
+  <div class="ag"><div class="ag-n">4</div><div><strong>Prática individual</strong><span>saudacao(), dobro(), media() + programa principal</span></div></div>
+</div>
+
+<!-- S3 POR QUE FUNCOES -->
+<div class="slide s-content">
+  <div class="slide-tag">Motivação</div>
+  <div class="slide-h">Por que precisamos de <span>funções?</span></div>
+  <div class="grid2">
+    <div>
+      <div class="info" style="margin-bottom:10px; border-color:#ef4444; background:rgba(239,68,68,0.08)">
+        <strong style="color:#ef4444">❌ Sem função — código repetido</strong>
+      </div>
+      <div class="code"><span class="cm"># Calcular média 3 vezes...</span>
+media1 = (<span class="num">7</span> + <span class="num">8</span>) / <span class="num">2</span>
+<span class="fn">print</span>(media1)
+
+media2 = (<span class="num">5</span> + <span class="num">9</span>) / <span class="num">2</span>
+<span class="fn">print</span>(media2)
+
+media3 = (<span class="num">6</span> + <span class="num">10</span>) / <span class="num">2</span>
+<span class="fn">print</span>(media3)
+<span class="cm"># Repetição! E se a fórmula mudar?</span></div>
+    </div>
+    <div>
+      <div class="info" style="margin-bottom:10px">
+        <strong>✅ Com função — escreva uma vez, use sempre</strong>
+      </div>
+      <div class="code"><span class="cm"># Define uma vez</span>
+<span class="kw">def</span> <span class="fn">media</span>(a, b):
+    <span class="kw">return</span> (a + b) / <span class="num">2</span>
+
+<span class="cm"># Usa quantas vezes quiser</span>
+<span class="fn">print</span>(<span class="fn">media</span>(<span class="num">7</span>, <span class="num">8</span>))
+<span class="fn">print</span>(<span class="fn">media</span>(<span class="num">5</span>, <span class="num">9</span>))
+<span class="fn">print</span>(<span class="fn">media</span>(<span class="num">6</span>, <span class="num">10</span>))</div>
+      <div class="info" style="margin-top:8px">
+        <strong>Vantagem:</strong> se precisar mudar a fórmula, muda em <em>um só lugar</em>!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 ANATOMIA DA FUNCAO -->
+<div class="slide s-content">
+  <div class="slide-tag">Sintaxe</div>
+  <div class="slide-h">Anatomia de uma <span>função</span></div>
+  <div class="anatomia">
+<span class="kw">def</span> <span class="fn">saudacao</span>(nome):<span class="anot">parâmetro</span>
+    mensagem = <span class="str">"Olá, "</span> + nome
+    <span class="kw">return</span> mensagem<span class="anot">devolve o resultado</span>
+
+
+resultado = <span class="fn">saudacao</span>(<span class="str">"Ana"</span>)<span class="anot">chamada da função</span>
+<span class="fn">print</span>(resultado)<span class="anot">exibe: Olá, Ana</span>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="card">
+      <div class="ct">📌 Partes obrigatórias</div>
+      <ul>
+        <li><code>def</code> — palavra-chave que cria a função</li>
+        <li>Nome da função — descritivo, sem espaços</li>
+        <li>Parênteses <code>()</code> — com ou sem parâmetros</li>
+        <li>Dois pontos <code>:</code> — não esqueça!</li>
+        <li>Indentação — 4 espaços no corpo</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="ct">📌 Regras do nome</div>
+      <ul>
+        <li>Letras minúsculas</li>
+        <li>Palavras separadas por <code>_</code></li>
+        <li>Não pode começar com número</li>
+        <li>Sem acentos ou espaços</li>
+        <li>Exemplo: <code>calcular_media</code>, <code>dobro</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- S5 RETURN VS PRINT -->
+<div class="slide s-content">
+  <div class="slide-tag">Conceito crucial</div>
+  <div class="slide-h"><span>return</span> vs <span>print</span> — qual a diferença?</div>
+  <div class="cmp">
+    <div class="cmp-c laranja">
+      <div class="ct">🖨️ print — só exibe</div>
+      <div class="code" style="font-size:12px"><span class="kw">def</span> <span class="fn">dobro_print</span>(x):
+    <span class="fn">print</span>(x * <span class="num">2</span>)  <span class="cm"># exibe</span>
+
+dobro_print(<span class="num">5</span>)  <span class="cm"># mostra: 10</span>
+
+<span class="cm"># Mas não posso guardar!</span>
+resultado = dobro_print(<span class="num">5</span>)
+<span class="fn">print</span>(resultado)  <span class="cm"># None !</span></div>
+      <div class="info" style="border-color:#ef4444; background:rgba(239,68,68,0.08); margin-top:8px; font-size:12px">
+        ⚠️ <strong style="color:#ef4444">Problema:</strong> o resultado some após exibir, não posso usar depois
+      </div>
+    </div>
+    <div class="cmp-c verde">
+      <div class="ct">↩️ return — devolve o valor</div>
+      <div class="code" style="font-size:12px"><span class="kw">def</span> <span class="fn">dobro_return</span>(x):
+    <span class="kw">return</span> x * <span class="num">2</span>  <span class="cm"># devolve</span>
+
+<span class="cm"># Posso guardar e usar!</span>
+resultado = dobro_return(<span class="num">5</span>)
+<span class="fn">print</span>(resultado)    <span class="cm"># 10</span>
+<span class="fn">print</span>(resultado + <span class="num">3</span>) <span class="cm"># 13</span></div>
+      <div class="info" style="border-color:#34d399; background:rgba(52,211,153,0.08); margin-top:8px; font-size:12px">
+        ✅ <strong style="color:#34d399">Correto:</strong> o valor fica disponível para uso posterior
+      </div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:14px; text-align:center">
+    <strong>Regra de ouro:</strong> use <code>return</code> quando quiser guardar ou usar o resultado. Use <code>print</code> só para exibir ao usuário.
+  </div>
+</div>
+
+<!-- S6 PRATICA -->
+<div class="slide s-content">
+  <div class="slide-tag">Prática individual</div>
+  <div class="slide-h">Criando suas <span>primeiras funções</span></div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># 1. Função de saudação</span>
+<span class="kw">def</span> <span class="fn">saudacao</span>(nome):
+    <span class="kw">return</span> <span class="str">"Olá, "</span> + nome + <span class="str">"!"</span>
+
+<span class="fn">print</span>(<span class="fn">saudacao</span>(<span class="str">"Ana"</span>))
+<span class="fn">print</span>(<span class="fn">saudacao</span>(<span class="str">"João"</span>))</div>
+      <div class="code"><span class="cm"># 2. Dobro de um número</span>
+<span class="kw">def</span> <span class="fn">dobro</span>(x):
+    <span class="kw">return</span> x * <span class="num">2</span>
+
+<span class="fn">print</span>(<span class="fn">dobro</span>(<span class="num">5</span>))   <span class="cm"># 10</span>
+<span class="fn">print</span>(<span class="fn">dobro</span>(<span class="num">12</span>))  <span class="cm"># 24</span></div>
+      <div class="code"><span class="cm"># 3. Média de dois valores</span>
+<span class="kw">def</span> <span class="fn">media</span>(a, b):
+    <span class="kw">return</span> (a + b) / <span class="num">2</span>
+
+resultado = <span class="fn">media</span>(<span class="num">7</span>, <span class="num">9</span>)
+<span class="fn">print</span>(<span class="str">f"Média: </span>{resultado}<span class="str">"</span>)</div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Roteiro</div>
+      <ul>
+        <li>Digite cada função no Trinket</li>
+        <li>Execute e confira o resultado</li>
+        <li>Teste com valores diferentes</li>
+        <li>Use as 3 juntas em um programa</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Programa principal:</strong><br>
+        Crie um programa que chama as 3 funções e exibe os resultados de forma organizada.
+      </div>
+      <div class="info" style="margin-top:8px">
+        <strong>Desafio:</strong> crie <code>triplo(x)</code> e <code>quadrado(x)</code> seguindo o mesmo padrão.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 RESUMO CADERNO -->
+<div class="slide s-content">
+  <div class="slide-tag">📓 Para o caderno</div>
+  <div class="slide-h">Resumo: <span>Funções em Python</span></div>
+  <table class="tbl">
+    <tr><th>Conceito</th><th>O que é</th><th>Exemplo</th></tr>
+    <tr><td><strong>def</strong></td><td>Palavra que cria (define) a função</td><td><code>def saudacao(nome):</code></td></tr>
+    <tr><td><strong>parâmetro</strong></td><td>Variável que a função recebe</td><td><code>def dobro(x):</code> → x é parâmetro</td></tr>
+    <tr><td><strong>corpo</strong></td><td>Código dentro da função (indentado)</td><td>4 espaços antes de cada linha</td></tr>
+    <tr><td><strong>return</strong></td><td>Devolve o resultado para quem chamou</td><td><code>return x * 2</code></td></tr>
+    <tr><td><strong>print</strong></td><td>Apenas exibe — não devolve</td><td><code>print(x * 2)</code> → resultado some</td></tr>
+    <tr><td><strong>chamada</strong></td><td>Executar a função passando argumentos</td><td><code>dobro(5)</code> ou <code>resultado = dobro(5)</code></td></tr>
+    <tr><td><strong>None</strong></td><td>Valor devolvido por função sem return</td><td>Função com só print retorna None</td></tr>
+  </table>
+</div>
+
+<!-- S8 LAB -->
+<div class="slide s-content">
+  <div class="slide-tag">🧪 Laboratório</div>
+  <div class="slide-h">Prática no <span>trinket.io/python3</span></div>
+  <div class="url-box">https://trinket.io/python3</div>
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <div class="step"><div class="snum">1</div><div><strong>saudacao(nome)</strong><span>Retorna "Olá, [nome]!" — teste com 3 nomes diferentes</span></div></div>
+      <div class="step"><div class="snum">2</div><div><strong>dobro(x)</strong><span>Retorna x * 2 — teste com 5, 10 e 0</span></div></div>
+      <div class="step"><div class="snum">3</div><div><strong>media(a, b)</strong><span>Retorna a média — teste com (7,9), (5,5) e (0,10)</span></div></div>
+      <div class="step"><div class="snum">4</div><div><strong>Programa principal</strong><span>Use as 3 funções juntas e exiba os resultados organizados</span></div></div>
+      <div class="step"><div class="snum">5</div><div><strong>Desafio</strong><span>Crie triplo(x) e quadrado(x) seguindo o mesmo padrão</span></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Dicas</div>
+      <ul>
+        <li>Sem login — só abrir e usar</li>
+        <li>▶ Run para executar</li>
+        <li>Não esqueça os dois pontos após <code>def</code></li>
+        <li>Indente com 4 espaços (Tab)</li>
+        <li>Erro em vermelho? leia a mensagem!</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  function go(d) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + d));
+    slides[cur].classList.add('active');
+    document.getElementById('cnt').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('btnP').disabled = cur === 0;
+    document.getElementById('btnN').disabled = cur === total - 1;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+</script>
+</body>
+</html>
