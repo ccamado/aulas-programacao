@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 28/05 - Funções, Listas e Dicionários</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #0f1117;
+    display: flex; flex-direction: column; align-items: center;
+    min-height: 100vh; padding: 16px; color: #e8eaf6;
+  }
+  .nav {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; background: #1a1d2e;
+    padding: 10px 20px; border-radius: 50px; border: 1px solid #2d3154;
+  }
+  .nav button {
+    background: #4f46e5; color: white; border: none;
+    border-radius: 50px; padding: 8px 20px;
+    font-family: 'Nunito', sans-serif; font-weight: 700;
+    font-size: 14px; cursor: pointer; transition: background 0.2s;
+  }
+  .nav button:hover { background: #6366f1; }
+  .nav button:disabled { background: #2d3154; color: #555; cursor: default; }
+  .slide-counter { font-size: 13px; color: #7c83c8; font-weight: 700; min-width: 60px; text-align: center; }
+  .slide {
+    display: none; width: 100%; max-width: 920px; min-height: 520px;
+    border-radius: 16px; padding: 44px 52px; position: relative; overflow: hidden;
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* CAPA */
+  .s-capa {
+    background: linear-gradient(135deg, #1a1d2e 0%, #16213e 50%, #0f3460 100%);
+    border: 1px solid #4f46e5; text-align: center; align-items: center;
+  }
+  .badge {
+    background: #4f46e5; color: white; padding: 6px 18px; border-radius: 50px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .s-capa h1 { font-size: 44px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 12px; }
+  .s-capa h1 span { color: #818cf8; }
+  .s-capa .sub { font-size: 15px; color: #7c83c8; margin-bottom: 28px; }
+  .pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pills span {
+    background: rgba(79,70,229,0.2); border: 1px solid #4f46e5;
+    color: #818cf8; padding: 6px 14px; border-radius: 50px;
+    font-size: 13px; font-weight: 700;
+  }
+  .data-tag { position: absolute; bottom: 20px; right: 30px; font-size: 12px; color: #4f46e5; font-weight: 700; }
+
+  /* SLIDE PADRÃO */
+  .s-content { background: #1a1d2e; border: 1px solid #2d3154; }
+  .slide-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #4f46e5; margin-bottom: 8px; }
+  .slide-h { font-size: 27px; font-weight: 900; color: white; margin-bottom: 22px; border-bottom: 2px solid #2d3154; padding-bottom: 14px; }
+  .slide-h span { color: #818cf8; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .card { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px 18px; }
+  .card .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #818cf8; text-transform: uppercase; margin-bottom: 10px; }
+  .card ul { list-style: none; }
+  .card ul li { font-size: 13px; color: #c7cbe8; padding: 5px 0; border-bottom: 1px solid #1e2140; display: flex; align-items: flex-start; gap: 8px; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: '▶'; font-size: 9px; color: #4f46e5; margin-top: 4px; flex-shrink: 0; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #4f46e5; border-radius: 10px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.75; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 8px 0; }
+  .kw { color: #818cf8; font-weight: 600; }
+  .fn { color: #38bdf8; }
+  .str { color: #86efac; }
+  .num { color: #fbbf24; }
+  .cm { color: #4a5280; font-style: italic; }
+  .info { background: rgba(79,70,229,0.1); border: 1px solid #4f46e5; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c7cbe8; margin-top: 10px; }
+  .info strong { color: #818cf8; }
+
+  /* AGENDA */
+  .ag { display: flex; align-items: center; gap: 16px; padding: 13px 16px; background: #0f1117; border: 1px solid #2d3154; border-radius: 10px; margin-bottom: 10px; }
+  .ag-n { background: #4f46e5; color: white; font-weight: 900; font-size: 15px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ag strong { color: white; font-size: 14px; display: block; }
+  .ag span { color: #7c83c8; font-size: 12px; }
+
+  /* COMPARAÇÃO */
+  .cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cmp-c { border-radius: 12px; padding: 16px 18px; }
+  .cmp-c.azul { background: rgba(56,189,248,0.08); border: 1px solid #38bdf8; }
+  .cmp-c.verde { background: rgba(52,211,153,0.08); border: 1px solid #34d399; }
+  .cmp-c .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .cmp-c.azul .ct { color: #38bdf8; }
+  .cmp-c.verde .ct { color: #34d399; }
+  .info-verde { background: rgba(52,211,153,0.08); border: 1px solid #34d399; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #c7cbe8; margin-top: 8px; }
+
+  /* TABELA RESUMO */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl th { background: #4f46e5; color: white; padding: 9px 12px; text-align: left; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid #2d3154; color: #c7cbe8; vertical-align: top; }
+  .tbl tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .tbl code { font-family: 'Fira Code', monospace; color: #818cf8; font-size: 12px; }
+
+  /* LAB */
+  .url-box { background: #090c14; border: 1px solid #34d399; border-radius: 8px; padding: 12px 18px; font-family: 'Fira Code', monospace; font-size: 16px; color: #34d399; text-align: center; margin: 12px 0; letter-spacing: 1px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .snum { background: #0f3460; border: 2px solid #4f46e5; color: #818cf8; font-weight: 900; font-size: 13px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step strong { color: white; font-size: 13px; display: block; margin-bottom: 3px; }
+  .step span { color: #7c83c8; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button id="btnP" onclick="go(-1)" disabled>← Anterior</button>
+  <span class="slide-counter" id="cnt">1 / 8</span>
+  <button id="btnN" onclick="go(1)">Próximo →</button>
+</div>
+
+<!-- S1 CAPA -->
+<div class="slide s-capa active">
+  <div class="badge">28/05/2026 · 3º Ano A</div>
+  <h1>Funções, <span>Listas</span><br>e Dicionários</h1>
+  <div class="sub">UCII – Programação Aplicada · Prof. Claudio Amado</div>
+  <div class="pills">
+    <span>🔁 Revisão 14/05 — Funções</span>
+    <span>🔁 Revisão 21/05 — Listas</span>
+    <span>🆕 Novo 28/05 — Dicionários</span>
+  </div>
+  <div class="data-tag">CEP Ezequiel Ferreira Lima</div>
+</div>
+
+<!-- S2 AGENDA -->
+<div class="slide s-content">
+  <div class="slide-tag">Hoje na aula</div>
+  <div class="slide-h">O que vamos ver <span>hoje?</span></div>
+  <div class="ag"><div class="ag-n">1</div><div><strong>Revisão — Funções (14/05)</strong><span>def, parâmetro, return vs print</span></div></div>
+  <div class="ag"><div class="ag-n">2</div><div><strong>Revisão — Listas (21/05)</strong><span>Criar, acessar, percorrer, len(), sum(), append()</span></div></div>
+  <div class="ag"><div class="ag-n">3</div><div><strong>Novo — Dicionários (28/05)</strong><span>Chave:valor, criar, acessar, percorrer</span></div></div>
+  <div class="ag"><div class="ag-n">4</div><div><strong>Laboratório — Prática</strong><span>trinket.io · sem instalação · sem login</span></div></div>
+</div>
+
+<!-- S3 REVISAO FUNCOES -->
+<div class="slide s-content">
+  <div class="slide-tag">Revisão · 14/05</div>
+  <div class="slide-h"><span>Funções</span> — organizar e reutilizar código</div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># Criando uma função</span>
+<span class="kw">def</span> <span class="fn">saudacao</span>(nome):
+    mensagem = <span class="str">"Olá, "</span> + nome
+    <span class="kw">return</span> mensagem
+
+resultado = <span class="fn">saudacao</span>(<span class="str">"Ana"</span>)
+<span class="fn">print</span>(resultado)  <span class="cm"># Olá, Ana</span></div>
+      <div class="code"><span class="cm"># Função com cálculo</span>
+<span class="kw">def</span> <span class="fn">media</span>(a, b):
+    <span class="kw">return</span> (a + b) / <span class="num">2</span>
+
+<span class="fn">print</span>(<span class="fn">media</span>(<span class="num">8</span>, <span class="num">6</span>))  <span class="cm"># 7.0</span></div>
+    </div>
+    <div class="card">
+      <div class="ct">📌 Conceitos-chave</div>
+      <ul>
+        <li><strong>def</strong> — palavra que cria a função</li>
+        <li><strong>parâmetro</strong> — variável na definição</li>
+        <li><strong>argumento</strong> — valor passado na chamada</li>
+        <li><strong>return</strong> — devolve o resultado</li>
+        <li><strong>print</strong> — só exibe, não devolve</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Regra:</strong> use <code>return</code> quando quiser usar o resultado depois!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 REVISAO LISTAS -->
+<div class="slide s-content">
+  <div class="slide-tag">Revisão · 21/05</div>
+  <div class="slide-h"><span>Listas</span> — vários valores em uma variável</div>
+  <div class="grid2">
+    <div>
+      <div class="code"><span class="cm"># Criando uma lista</span>
+notas = [<span class="num">7.0</span>, <span class="num">8.5</span>, <span class="num">6.0</span>, <span class="num">9.0</span>, <span class="num">5.5</span>]
+
+<span class="cm"># Acessando pelo índice</span>
+<span class="fn">print</span>(notas[<span class="num">0</span>])   <span class="cm"># 7.0 (primeiro)</span>
+<span class="fn">print</span>(notas[-<span class="num">1</span>])  <span class="cm"># 5.5 (último)</span>
+
+<span class="cm"># Funções úteis</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(notas))  <span class="cm"># 36.0</span>
+<span class="fn">print</span>(<span class="fn">len</span>(notas))  <span class="cm"># 5</span>
+media = <span class="fn">sum</span>(notas) / <span class="fn">len</span>(notas)</div>
+      <div class="code"><span class="cm"># Percorrendo com for + if</span>
+<span class="kw">for</span> nota <span class="kw">in</span> notas:
+    <span class="kw">if</span> nota >= <span class="num">6</span>:
+        <span class="fn">print</span>(<span class="str">f"</span>{nota}<span class="str"> — Aprovado ✓"</span>)</div>
+    </div>
+    <div class="card">
+      <div class="ct">📌 Operações com Listas</div>
+      <ul>
+        <li><code>lista[0]</code> — primeiro item</li>
+        <li><code>lista[-1]</code> — último item</li>
+        <li><code>len(lista)</code> — total de itens</li>
+        <li><code>sum(lista)</code> — soma dos valores</li>
+        <li><code>lista.append(x)</code> — adiciona item</li>
+        <li><code>for x in lista:</code> — percorre tudo</li>
+        <li><code>lista[1:3]</code> — fatia (slice)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- S5 DICIONARIOS CONCEITO -->
+<div class="slide s-content">
+  <div class="slide-tag">Novo · 28/05</div>
+  <div class="slide-h"><span>Dicionários</span> — dados com nome (chave:valor)</div>
+  <div class="cmp">
+    <div class="cmp-c azul">
+      <div class="ct">📋 Lista — acessa por índice</div>
+      <div class="code" style="font-size:12px">aluno = [<span class="str">"João"</span>, <span class="num">17</span>, <span class="str">"3ºA"</span>]
+
+<span class="cm"># O que é aluno[1]?</span>
+<span class="fn">print</span>(aluno[<span class="num">1</span>])  <span class="cm"># 17</span>
+<span class="cm"># Difícil lembrar cada posição!</span></div>
+      <div class="info" style="font-size:12px; margin-top:8px">
+        ⚠️ Preciso memorizar o índice de cada dado
+      </div>
+    </div>
+    <div class="cmp-c verde">
+      <div class="ct">📚 Dicionário — acessa por nome</div>
+      <div class="code" style="font-size:12px">aluno = {
+  <span class="str">"nome"</span>: <span class="str">"João"</span>,
+  <span class="str">"idade"</span>: <span class="num">17</span>,
+  <span class="str">"turma"</span>: <span class="str">"3ºA"</span>
+}
+<span class="fn">print</span>(aluno[<span class="str">"idade"</span>]) <span class="cm"># 17</span></div>
+      <div class="info-verde">✅ Cada dado tem um nome! Muito mais claro.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 DICIONARIOS OPERACOES -->
+<div class="slide s-content">
+  <div class="slide-tag">Dicionários · Operações</div>
+  <div class="slide-h">O que posso fazer com um <span>dicionário?</span></div>
+  <div class="grid2">
+    <div class="code"><span class="cm"># Criar</span>
+aluno = {<span class="str">"nome"</span>: <span class="str">"Ana"</span>, <span class="str">"nota"</span>: <span class="num">8.5</span>}
+
+<span class="cm"># Acessar</span>
+<span class="fn">print</span>(aluno[<span class="str">"nome"</span>])      <span class="cm"># Ana</span>
+
+<span class="cm"># Adicionar nova chave</span>
+aluno[<span class="str">"turma"</span>] = <span class="str">"3ºA"</span>
+
+<span class="cm"># Atualizar valor existente</span>
+aluno[<span class="str">"nota"</span>] = <span class="num">9.0</span>
+
+<span class="cm"># Remover</span>
+<span class="kw">del</span> aluno[<span class="str">"turma"</span>]
+
+<span class="cm"># Percorrer tudo</span>
+<span class="kw">for</span> chave, valor <span class="kw">in</span> aluno.items():
+    <span class="fn">print</span>(chave, <span class="str">"→"</span>, valor)</div>
+    <div class="card">
+      <div class="ct">📌 Métodos do dicionário</div>
+      <ul>
+        <li><code>dic["chave"]</code> — acessa valor</li>
+        <li><code>dic["chave"] = x</code> — cria ou atualiza</li>
+        <li><code>del dic["chave"]</code> — remove</li>
+        <li><code>dic.keys()</code> — todas as chaves</li>
+        <li><code>dic.values()</code> — todos os valores</li>
+        <li><code>dic.items()</code> — pares chave/valor</li>
+        <li><code>"chave" in dic</code> — verifica existência</li>
+      </ul>
+      <div class="info" style="margin-top:10px">
+        <strong>Atenção:</strong> chaves são únicas — não pode repetir a mesma chave!
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 TABELA RESUMO -->
+<div class="slide s-content">
+  <div class="slide-tag">📓 Para o caderno</div>
+  <div class="slide-h">Resumo: <span>Funções · Listas · Dicionários</span></div>
+  <table class="tbl">
+    <tr><th>Recurso</th><th>Para que serve</th><th>Exemplo</th></tr>
+    <tr><td><strong>def / return</strong></td><td>Criar função que devolve resultado</td><td><code>def dobro(x): return x * 2</code></td></tr>
+    <tr><td><strong>parâmetro</strong></td><td>Variável da função</td><td><code>def media(a, b):</code> → a, b são parâmetros</td></tr>
+    <tr><td><strong>lista[ ]</strong></td><td>Vários valores numa variável</td><td><code>notas = [7, 8, 9]</code></td></tr>
+    <tr><td><strong>len() / sum()</strong></td><td>Tamanho e soma de lista</td><td><code>len(notas)   sum(notas)</code></td></tr>
+    <tr><td><strong>append()</strong></td><td>Adiciona item à lista</td><td><code>notas.append(10)</code></td></tr>
+    <tr><td><strong>dict { }</strong></td><td>Dados com nome (chave:valor)</td><td><code>aluno = {"nome": "Ana"}</code></td></tr>
+    <tr><td><strong>.items()</strong></td><td>Percorrer chaves e valores</td><td><code>for k, v in aluno.items():</code></td></tr>
+    <tr><td><strong>for x in lista:</strong></td><td>Percorrer todos os itens</td><td><code>for nota in notas: print(nota)</code></td></tr>
+  </table>
+</div>
+
+<!-- S8 LABORATORIO -->
+<div class="slide s-content">
+  <div class="slide-tag">🧪 Laboratório — Sem login · Sem instalação</div>
+  <div class="slide-h">Acesse agora: <span>trinket.io/python3</span></div>
+  <div class="url-box">https://trinket.io/python3</div>
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <div class="step"><div class="snum">1</div><div><strong>Abra o site no navegador</strong><span>Clique em "New Trinket" → Python 3 — já pode digitar!</span></div></div>
+      <div class="step"><div class="snum">2</div><div><strong>Exercício 1 — Funções</strong><span>Crie media(a,b) e desconto(preco) com if/else</span></div></div>
+      <div class="step"><div class="snum">3</div><div><strong>Exercício 2 — Lista de notas</strong><span>5 notas → média e contagem de aprovados ≥ 6</span></div></div>
+      <div class="step"><div class="snum">4</div><div><strong>Exercício 3 — Dicionário aluno</strong><span>nome, idade, turma → exibir formatado com for</span></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Dicas para o lab</div>
+      <ul>
+        <li>Sem conta, sem senha — só entrar e usar</li>
+        <li>Clique ▶ Run para executar</li>
+        <li>Erro em vermelho? leia a mensagem!</li>
+        <li>Termine cada exercício antes do próximo</li>
+        <li>Dúvida? chame o professor</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  function go(d) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + d));
+    slides[cur].classList.add('active');
+    document.getElementById('cnt').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('btnP').disabled = cur === 0;
+    document.getElementById('btnN').disabled = cur === total - 1;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+</script>
+</body>
+</html>

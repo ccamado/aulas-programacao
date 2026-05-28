@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Roteiro Lab 28/05 - Python</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; color: #e8eaf6; padding: 30px; max-width: 860px; margin: 0 auto; }
+
+  .header { background: linear-gradient(135deg, #1a1d2e, #16213e); border: 1px solid #4f46e5; border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .header .badge { background: #4f46e5; color: white; padding: 4px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; font-weight: 900; color: white; margin-bottom: 6px; }
+  .header h1 span { color: #818cf8; }
+  .header p { font-size: 13px; color: #7c83c8; }
+
+  .url-destaque { background: #090c14; border: 2px solid #34d399; border-radius: 12px; padding: 16px 24px; text-align: center; margin-bottom: 24px; }
+  .url-destaque .label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #34d399; margin-bottom: 6px; }
+  .url-destaque .url { font-family: 'Fira Code', monospace; font-size: 20px; color: #34d399; font-weight: 600; }
+  .url-destaque .instrucao { font-size: 12px; color: #7c83c8; margin-top: 6px; }
+
+  .exercicio { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+  .ex-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #2d3154; }
+  .ex-num { background: #4f46e5; color: white; font-weight: 900; font-size: 16px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ex-num.verde { background: #059669; }
+  .ex-num.roxo { background: #7c3aed; }
+  .ex-titulo { font-size: 17px; font-weight: 900; color: white; }
+  .ex-sub { font-size: 12px; color: #7c83c8; }
+
+  .objetivo { background: rgba(79,70,229,0.1); border-left: 3px solid #4f46e5; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #c7cbe8; margin-bottom: 16px; }
+  .objetivo strong { color: #818cf8; }
+
+  .passo { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .passo-n { background: #0f1117; border: 1px solid #4f46e5; color: #818cf8; font-weight: 700; font-size: 12px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .passo p { font-size: 13px; color: #c7cbe8; line-height: 1.5; }
+  .passo p strong { color: white; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #4f46e5; border-radius: 8px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.8; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 10px 0; }
+  .code.verde-border { border-left-color: #34d399; }
+  .code.roxo-border { border-left-color: #a78bfa; }
+  .kw { color: #818cf8; font-weight: 600; }
+  .fn { color: #38bdf8; }
+  .str { color: #86efac; }
+  .num { color: #fbbf24; }
+  .cm { color: #4a5280; font-style: italic; }
+
+  .desafio { background: rgba(124,58,237,0.1); border: 1px solid #7c3aed; border-radius: 10px; padding: 14px 18px; margin-top: 14px; }
+  .desafio .dt { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #a78bfa; text-transform: uppercase; margin-bottom: 8px; }
+  .desafio p { font-size: 13px; color: #c7cbe8; }
+
+  .esperado { background: rgba(52,211,153,0.08); border: 1px solid #34d399; border-radius: 8px; padding: 12px 16px; margin-top: 10px; }
+  .esperado .et { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #34d399; text-transform: uppercase; margin-bottom: 6px; }
+  .esperado p { font-family: 'Fira Code', monospace; font-size: 12px; color: #c7cbe8; }
+
+  .footer { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 12px; padding: 18px 24px; margin-top: 24px; display: flex; gap: 20px; align-items: center; }
+  .footer p { font-size: 13px; color: #7c83c8; }
+  .footer strong { color: #818cf8; display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Roteiro de Laboratório · 28/05/2026</div>
+  <h1>Python Prático: <span>Funções, Listas e Dicionários</span></h1>
+  <p>UCII – Programação Aplicada · 3º Ano A · Prof. Claudio Amado · 1 tempo (50 min)</p>
+</div>
+
+<div class="url-destaque">
+  <div class="label">🌐 Ambiente online — sem login, sem instalação</div>
+  <div class="url">https://trinket.io/python3</div>
+  <div class="instrucao">Abra no navegador → clique em "New Trinket" → selecione Python 3 → comece a digitar!</div>
+</div>
+
+<!-- EXERCICIO 1 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num">1</div>
+    <div>
+      <div class="ex-titulo">Funções — revisão (14/05)</div>
+      <div class="ex-sub">⏱ estimativa: 12 minutos</div>
+    </div>
+  </div>
+
+  <div class="objetivo"><strong>Objetivo:</strong> criar funções que recebem parâmetros e devolvem resultados com return.</div>
+
+  <div class="passo">
+    <div class="passo-n">1</div>
+    <p><strong>Digite o código abaixo</strong> no Trinket e clique em ▶ Run:</p>
+  </div>
+
+  <div class="code"><span class="cm"># EXERCÍCIO 1 — Funções</span>
+
+<span class="kw">def</span> <span class="fn">media</span>(a, b):
+    <span class="kw">return</span> (a + b) / <span class="num">2</span>
+
+<span class="kw">def</span> <span class="fn">desconto</span>(preco):
+    <span class="kw">if</span> preco > <span class="num">100</span>:
+        <span class="kw">return</span> preco * <span class="num">0.9</span>   <span class="cm"># 10% de desconto</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> preco           <span class="cm"># sem desconto</span>
+
+<span class="cm"># Testando as funções</span>
+<span class="fn">print</span>(<span class="fn">media</span>(<span class="num">7</span>, <span class="num">9</span>))          <span class="cm"># deve dar 8.0</span>
+<span class="fn">print</span>(<span class="fn">desconto</span>(<span class="num">150</span>))      <span class="cm"># deve dar 135.0</span>
+<span class="fn">print</span>(<span class="fn">desconto</span>(<span class="num">80</span>))       <span class="cm"># deve dar 80</span></div>
+
+  <div class="esperado">
+    <div class="et">✅ Saída esperada</div>
+    <p>8.0<br>135.0<br>80</p>
+  </div>
+
+  <div class="desafio">
+    <div class="dt">⚡ Desafio — se terminar antes</div>
+    <p>Crie uma função <code>classificar_nota(n)</code> que retorna "Aprovado" se n &gt;= 6, "Recuperação" se n &gt;= 4, ou "Reprovado" caso contrário. Teste com as notas 9, 5 e 3.</p>
+  </div>
+</div>
+
+<!-- EXERCICIO 2 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num verde">2</div>
+    <div>
+      <div class="ex-titulo">Listas — revisão (21/05)</div>
+      <div class="ex-sub">⏱ estimativa: 15 minutos</div>
+    </div>
+  </div>
+
+  <div class="objetivo"><strong>Objetivo:</strong> usar uma lista para guardar notas, calcular média e contar aprovados.</div>
+
+  <div class="passo">
+    <div class="passo-n">1</div>
+    <p><strong>Limpe o código anterior</strong> (selecione tudo e delete) e digite:</p>
+  </div>
+
+  <div class="code verde-border"><span class="cm"># EXERCÍCIO 2 — Lista de notas</span>
+
+notas = [<span class="num">7.0</span>, <span class="num">8.5</span>, <span class="num">5.0</span>, <span class="num">9.0</span>, <span class="num">6.5</span>]
+
+<span class="cm"># Calcular soma e média</span>
+soma  = <span class="fn">sum</span>(notas)
+total = <span class="fn">len</span>(notas)
+media = soma / total
+
+<span class="fn">print</span>(<span class="str">f"Soma: </span>{soma}<span class="str">"</span>)
+<span class="fn">print</span>(<span class="str">f"Média: </span>{media:.1f}<span class="str">"</span>)
+
+<span class="cm"># Contar aprovados (nota >= 6)</span>
+aprovados = <span class="num">0</span>
+<span class="kw">for</span> nota <span class="kw">in</span> notas:
+    <span class="kw">if</span> nota >= <span class="num">6</span>:
+        aprovados = aprovados + <span class="num">1</span>
+
+<span class="fn">print</span>(<span class="str">f"Aprovados: </span>{aprovados}<span class="str"> de </span>{total}<span class="str">"</span>)</div>
+
+  <div class="esperado">
+    <div class="et">✅ Saída esperada</div>
+    <p>Soma: 36.0<br>Média: 7.2<br>Aprovados: 4 de 5</p>
+  </div>
+
+  <div class="passo" style="margin-top:14px">
+    <div class="passo-n">2</div>
+    <p><strong>Adicione uma nota nova</strong> ao final da lista usando <code>notas.append(4.0)</code> e rode novamente. O que mudou nos resultados?</p>
+  </div>
+
+  <div class="desafio">
+    <div class="dt">⚡ Desafio — se terminar antes</div>
+    <p>Exiba cada nota com sua situação: "7.0 — Aprovado ✓" ou "5.0 — Recuperação ✗". Use for + if/else dentro do loop.</p>
+  </div>
+</div>
+
+<!-- EXERCICIO 3 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num roxo">3</div>
+    <div>
+      <div class="ex-titulo">Dicionários — conteúdo novo (28/05)</div>
+      <div class="ex-sub">⏱ estimativa: 18 minutos</div>
+    </div>
+  </div>
+
+  <div class="objetivo"><strong>Objetivo:</strong> criar um dicionário de aluno com chave:valor, acessar dados e percorrer com for.</div>
+
+  <div class="passo">
+    <div class="passo-n">1</div>
+    <p><strong>Parte A</strong> — Crie e explore um dicionário:</p>
+  </div>
+
+  <div class="code roxo-border"><span class="cm"># EXERCÍCIO 3A — Dicionário simples</span>
+
+aluno = {
+    <span class="str">"nome"</span>:  <span class="str">"Maria"</span>,
+    <span class="str">"idade"</span>: <span class="num">17</span>,
+    <span class="str">"turma"</span>: <span class="str">"3ºA"</span>,
+    <span class="str">"nota"</span>:  <span class="num">8.5</span>
+}
+
+<span class="cm"># Acessar valores pelo nome da chave</span>
+<span class="fn">print</span>(<span class="str">"Nome:"</span>, aluno[<span class="str">"nome"</span>])
+<span class="fn">print</span>(<span class="str">"Nota:"</span>, aluno[<span class="str">"nota"</span>])
+
+<span class="cm"># Percorrer todas as chaves e valores</span>
+<span class="fn">print</span>(<span class="str">"--- Ficha do aluno ---"</span>)
+<span class="kw">for</span> chave, valor <span class="kw">in</span> aluno.items():
+    <span class="fn">print</span>(<span class="str">f"</span>{chave}<span class="str">: </span>{valor}<span class="str">"</span>)</div>
+
+  <div class="passo" style="margin-top:14px">
+    <div class="passo-n">2</div>
+    <p><strong>Parte B</strong> — Adicione uma chave nova e atualize a nota:</p>
+  </div>
+
+  <div class="code roxo-border"><span class="cm"># EXERCÍCIO 3B — Mini-cadastro (3 alunos)</span>
+
+alunos = [
+    {<span class="str">"nome"</span>: <span class="str">"João"</span>,   <span class="str">"nota"</span>: <span class="num">7.0</span>},
+    {<span class="str">"nome"</span>: <span class="str">"Maria"</span>,  <span class="str">"nota"</span>: <span class="num">8.5</span>},
+    {<span class="str">"nome"</span>: <span class="str">"Pedro"</span>,  <span class="str">"nota"</span>: <span class="num">5.5</span>},
+]
+
+<span class="fn">print</span>(<span class="str">"=== Relatório da Turma ==="</span>)
+<span class="kw">for</span> a <span class="kw">in</span> alunos:
+    situacao = <span class="str">"Aprovado ✓"</span> <span class="kw">if</span> a[<span class="str">"nota"</span>] >= <span class="num">6</span> <span class="kw">else</span> <span class="str">"Reprovado ✗"</span>
+    <span class="fn">print</span>(<span class="str">f"</span>{a['nome']}<span class="str"> — </span>{a['nota']}<span class="str"> — </span>{situacao}<span class="str">"</span>)</div>
+
+  <div class="esperado">
+    <div class="et">✅ Saída esperada (Parte B)</div>
+    <p>=== Relatório da Turma ===<br>João — 7.0 — Aprovado ✓<br>Maria — 8.5 — Aprovado ✓<br>Pedro — 5.5 — Reprovado ✗</p>
+  </div>
+
+  <div class="desafio">
+    <div class="dt">⚡ Desafio final — integrador</div>
+    <p>Crie uma função <code>media_turma(alunos)</code> que recebe a lista de dicionários e retorna a média das notas. Use sum() e len() no seu interior. Exiba o resultado formatado.</p>
+  </div>
+</div>
+
+<div class="footer">
+  <div>
+    <strong>🔗 Site da aula</strong>
+    <p>trinket.io/python3 — sem login, sem instalação</p>
+  </div>
+  <div>
+    <strong>💾 Salvar seu código</strong>
+    <p>Selecione tudo (Ctrl+A), copie e cole no caderno ou envie por e-mail para si mesmo</p>
+  </div>
+  <div>
+    <strong>🙋 Dúvida?</strong>
+    <p>Leia o erro em vermelho com calma — a mensagem diz exatamente onde está o problema!</p>
+  </div>
+</div>
+
+</body>
+</html>
