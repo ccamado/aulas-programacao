@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aula 11/06 - Modularização (import)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 16px; color: #e8eaf6; }
+  .nav { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; background: #1a1d2e; padding: 10px 20px; border-radius: 50px; border: 1px solid #2d3154; }
+  .nav button { background: #b45309; color: white; border: none; border-radius: 50px; padding: 8px 20px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .nav button:hover { background: #d97706; }
+  .nav button:disabled { background: #2d3154; color: #555; cursor: default; }
+  .slide-counter { font-size: 13px; color: #7c83c8; font-weight: 700; min-width: 60px; text-align: center; }
+  .slide { display: none; width: 100%; max-width: 920px; min-height: 520px; border-radius: 16px; padding: 44px 52px; position: relative; overflow: hidden; }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .s-capa { background: linear-gradient(135deg, #1c1000 0%, #2a1800 50%, #3d2200 100%); border: 1px solid #b45309; text-align: center; align-items: center; }
+  .badge { display: inline-block; background: #b45309; color: white; padding: 6px 18px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .s-capa h1 { font-size: 42px; font-weight: 900; color: white; line-height: 1.1; margin-bottom: 12px; }
+  .s-capa h1 span { color: #fbbf24; }
+  .s-capa .sub { font-size: 15px; color: #7c83c8; margin-bottom: 28px; }
+  .pills { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .pills span { background: rgba(180,83,9,0.2); border: 1px solid #b45309; color: #fbbf24; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+  .data-tag { position: absolute; bottom: 20px; right: 30px; font-size: 12px; color: #b45309; font-weight: 700; }
+
+  .s-content { background: #1a1d2e; border: 1px solid #2d3154; }
+  .slide-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #b45309; margin-bottom: 8px; }
+  .slide-h { font-size: 27px; font-weight: 900; color: white; margin-bottom: 22px; border-bottom: 2px solid #2d3154; padding-bottom: 14px; }
+  .slide-h span { color: #fbbf24; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px 18px; }
+  .card .ct { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #fbbf24; text-transform: uppercase; margin-bottom: 10px; }
+  .card ul { list-style: none; }
+  .card ul li { font-size: 13px; color: #c7cbe8; padding: 5px 0; border-bottom: 1px solid #1e2140; display: flex; align-items: flex-start; gap: 8px; }
+  .card ul li:last-child { border-bottom: none; }
+  .card ul li::before { content: '▶'; font-size: 9px; color: #b45309; margin-top: 4px; flex-shrink: 0; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #b45309; border-radius: 10px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.8; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 8px 0; }
+  .info { background: rgba(180,83,9,0.1); border: 1px solid #b45309; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #c7cbe8; margin-top: 10px; }
+  .info strong { color: #fbbf24; }
+
+  .ag { display: flex; align-items: center; gap: 16px; padding: 13px 16px; background: #0f1117; border: 1px solid #2d3154; border-radius: 10px; margin-bottom: 10px; }
+  .ag-n { background: #b45309; color: white; font-weight: 900; font-size: 15px; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ag strong { color: white; font-size: 14px; display: block; }
+  .ag span { color: #7c83c8; font-size: 12px; }
+
+  .url-box { background: #090c14; border: 1px solid #34d399; border-radius: 8px; padding: 12px 18px; font-family: 'Fira Code', monospace; font-size: 16px; color: #34d399; text-align: center; margin: 12px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .snum { background: #1c1000; border: 2px solid #b45309; color: #fbbf24; font-weight: 900; font-size: 13px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .step strong { color: white; font-size: 13px; display: block; margin-bottom: 3px; }
+  .step span { color: #7c83c8; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <button id="btnP" onclick="go(-1)" disabled>← Anterior</button>
+  <span class="slide-counter" id="cnt">1 / 8</span>
+  <button id="btnN" onclick="go(1)">Próximo →</button>
+</div>
+
+<!-- S1 CAPA -->
+<div class="slide s-capa active">
+  <div class="badge">11/06/2026 · 3º Ano A</div>
+  <h1>Modularização:<br><span>import</span> e <span>arquivos</span></h1>
+  <div class="sub">UCII – Programação Aplicada · Prof. Claudio Amado</div>
+  <div class="pills">
+    <span>🧩 Por que modularizar?</span>
+    <span>📁 funcoes.py + main.py</span>
+    <span>📦 import / from...import</span>
+    <span>🧪 Prática individual</span>
+  </div>
+  <div class="data-tag">CEP Ezequiel Ferreira Lima</div>
+</div>
+
+<!-- S2 AGENDA -->
+<div class="slide s-content">
+  <div class="slide-tag">Hoje na aula</div>
+  <div class="slide-h">O que vamos fazer <span>hoje?</span></div>
+  <div class="ag"><div class="ag-n">1</div><div><strong>Por que modularizar?</strong><span>Organização, reaproveitamento e manutenção</span></div></div>
+  <div class="ag"><div class="ag-n">2</div><div><strong>Dois arquivos</strong><span>funcoes.py (funções) + main.py (programa principal)</span></div></div>
+  <div class="ag"><div class="ag-n">3</div><div><strong>Import</strong><span>import / from ... import ...</span></div></div>
+  <div class="ag"><div class="ag-n">4</div><div><strong>Prática em laboratório</strong><span>Montar e executar o projeto em pasta</span></div></div>
+</div>
+
+<!-- S3 POR QUE -->
+<div class="slide s-content">
+  <div class="slide-tag">Motivação</div>
+  <div class="slide-h">Por que <span>separar</span> em arquivos?</div>
+  <div class="grid2">
+    <div>
+      <div class="info" style="margin-bottom:10px; border-color:#ef4444; background:rgba(239,68,68,0.08)"><strong style="color:#ef4444">❌ Tudo em um arquivo</strong><br>Difícil achar funções, difícil reutilizar, vira bagunça rápido.</div>
+      <div class="code"># Um arquivo gigante
+# funções misturadas com o programa principal
+# fica difícil revisar e reaproveitar</div>
+    </div>
+    <div>
+      <div class="info" style="margin-bottom:10px"><strong>✅ Separado (organizado)</strong><br>Funções em um lugar, programa principal em outro.</div>
+      <div class="code">funcoes.py  -> só funções
+main.py     -> só o programa principal
+
+Resultado: fica fácil reutilizar e corrigir.</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 ESTRUTURA -->
+<div class="slide s-content">
+  <div class="slide-tag">Estrutura do projeto</div>
+  <div class="slide-h">Como montar a <span>pasta</span> da aula</div>
+  <div class="step"><div class="snum">1</div><div><strong>Crie uma pasta</strong><span>Ex.: PA_2026_11-06</span></div></div>
+  <div class="step"><div class="snum">2</div><div><strong>Crie 2 arquivos</strong><span>funcoes.py e main.py</span></div></div>
+  <div class="step"><div class="snum">3</div><div><strong>Coloque as funções</strong><span>media(), desconto(), classificar_idade() em funcoes.py</span></div></div>
+  <div class="step"><div class="snum">4</div><div><strong>No main.py, importe e use</strong><span>Leia input() e chame as funções</span></div></div>
+</div>
+
+<!-- S5 IMPORT -->
+<div class="slide s-content">
+  <div class="slide-tag">Comandos</div>
+  <div class="slide-h">Duas formas de <span>importar</span></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="ct">Forma 1: importar o módulo</div>
+      <div class="code">import funcoes
+
+print(funcoes.media(7, 9))</div>
+    </div>
+    <div class="card">
+      <div class="ct">Forma 2: importar funções</div>
+      <div class="code">from funcoes import media, desconto
+
+print(media(7, 9))
+print(desconto(120))</div>
+    </div>
+  </div>
+  <div class="info" style="margin-top:12px"><strong>Dica:</strong> o nome do arquivo (funcoes.py) vira o nome do módulo (funcoes).</div>
+</div>
+
+<!-- S6 MINI EXEMPLO -->
+<div class="slide s-content">
+  <div class="slide-tag">Exemplo mínimo</div>
+  <div class="slide-h">funcoes.py e main.py <span>funcionando</span></div>
+  <div class="grid2">
+    <div>
+      <div class="card"><div class="ct">funcoes.py</div>
+        <div class="code">def media(a, b):
+    return (a + b) / 2
+
+def desconto(preco):
+    if preco &gt; 100:
+        return preco * 0.90
+    return preco</div>
+      </div>
+    </div>
+    <div>
+      <div class="card"><div class="ct">main.py</div>
+        <div class="code">from funcoes import media, desconto
+
+print("Média:", media(7, 9))
+print("Final:", desconto(150))</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 ERROS COMUNS -->
+<div class="slide s-content">
+  <div class="slide-tag">Anti-trava</div>
+  <div class="slide-h">Erros comuns <span>(e como resolver)</span></div>
+  <div class="card">
+    <div class="ct">Checklist rápido</div>
+    <ul>
+      <li>Os dois arquivos estão na MESMA pasta?</li>
+      <li>Você salvou como <code>funcoes.py</code> (sem espaço/acentos)?</li>
+      <li>No import, o nome bate com o arquivo? (<code>funcoes</code>)</li>
+      <li>Rodou o arquivo certo? (execute <code>main.py</code>)</li>
+      <li>Indentação correta (4 espaços) dentro das funções?</li>
+    </ul>
+  </div>
+</div>
+
+<!-- S8 LAB -->
+<div class="slide s-content">
+  <div class="slide-tag">🧪 Laboratório</div>
+  <div class="slide-h">Roteiro do <span>laboratório</span></div>
+  <div class="url-box">roteiro_lab_11junho.html</div>
+  <div class="grid2" style="margin-top:12px">
+    <div>
+      <div class="step"><div class="snum">1</div><div><strong>Criar funcoes.py</strong><span>media(), desconto(), classificar_idade()</span></div></div>
+      <div class="step"><div class="snum">2</div><div><strong>Criar main.py</strong><span>importar e usar com input()</span></div></div>
+      <div class="step"><div class="snum">3</div><div><strong>Executar</strong><span>Rodar main.py e conferir saída</span></div></div>
+      <div class="step"><div class="snum">4</div><div><strong>Entrega</strong><span>Salvar a pasta do projeto</span></div></div>
+    </div>
+    <div class="card">
+      <div class="ct">✅ Resumo para o caderno</div>
+      <ul>
+        <li>Modularizar = separar em arquivos para organizar e reaproveitar.</li>
+        <li><code>funcoes.py</code> guarda funções; <code>main.py</code> é o programa principal.</li>
+        <li><code>import</code> traz o código de outro arquivo para usar aqui.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  function go(d) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + d));
+    slides[cur].classList.add('active');
+    document.getElementById('cnt').textContent = (cur+1) + ' / ' + total;
+    document.getElementById('btnP').disabled = cur === 0;
+    document.getElementById('btnN').disabled = cur === total - 1;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+</script>
+</body>
+</html>
