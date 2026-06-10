@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Roteiro Lab 18/06 - Biblioteca Padrão (math/random)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; color: #e8eaf6; padding: 30px; max-width: 860px; margin: 0 auto; }
+  .header { background: linear-gradient(135deg, #1a1d2e, #16213e); border: 1px solid #4f46e5; border-radius: 16px; padding: 28px 32px; margin-bottom: 24px; }
+  .header .badge { background: #4f46e5; color: white; padding: 4px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; display: inline-block; margin-bottom: 12px; }
+  .header h1 { font-size: 28px; font-weight: 900; color: white; margin-bottom: 6px; }
+  .header h1 span { color: #818cf8; }
+  .header p { font-size: 13px; color: #7c83c8; }
+
+  .url-destaque { background: #090c14; border: 2px solid #34d399; border-radius: 12px; padding: 16px 24px; text-align: center; margin-bottom: 24px; }
+  .url-destaque .label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #34d399; margin-bottom: 6px; }
+  .url-destaque .url { font-family: 'Fira Code', monospace; font-size: 20px; color: #34d399; font-weight: 600; }
+  .url-destaque .instrucao { font-size: 12px; color: #7c83c8; margin-top: 6px; }
+
+  .exercicio { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+  .ex-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #2d3154; }
+  .ex-num { background: #4f46e5; color: white; font-weight: 900; font-size: 16px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ex-num.verde { background: #059669; }
+  .ex-num.roxo { background: #7c3aed; }
+  .ex-titulo { font-size: 17px; font-weight: 900; color: white; }
+  .ex-sub { font-size: 12px; color: #7c83c8; }
+
+  .objetivo { background: rgba(79,70,229,0.1); border-left: 3px solid #4f46e5; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #c7cbe8; margin-bottom: 16px; }
+  .objetivo strong { color: #818cf8; }
+
+  .passo { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .passo-n { background: #0f1117; border: 1px solid #4f46e5; color: #818cf8; font-weight: 700; font-size: 12px; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .passo p { font-size: 13px; color: #c7cbe8; line-height: 1.5; }
+  .passo p strong { color: white; }
+
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #4f46e5; border-radius: 8px; padding: 14px 18px; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.8; color: #c7cbe8; white-space: pre; overflow-x: auto; margin: 10px 0; }
+  .code.verde-border { border-left-color: #34d399; }
+  .code.roxo-border { border-left-color: #a78bfa; }
+
+  .desafio { background: rgba(124,58,237,0.1); border: 1px solid #7c3aed; border-radius: 10px; padding: 14px 18px; margin-top: 14px; }
+  .desafio .dt { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #a78bfa; text-transform: uppercase; margin-bottom: 8px; }
+  .desafio p { font-size: 13px; color: #c7cbe8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Roteiro de Laboratório · 18/06/2026</div>
+  <h1>Python Prático: <span>Biblioteca Padrão (math/random)</span></h1>
+  <p>UCII – Programação Aplicada · 3º Ano A · Prof. Claudio Amado · 2 tempos (100 min)</p>
+</div>
+
+<div class="url-destaque">
+  <div class="label">🌐 Ambiente online (opcional) — sem login, sem instalação</div>
+  <div class="url">https://trinket.io/python3</div>
+  <div class="instrucao">Use se o laboratório travar. New Trinket → Python 3 → Run</div>
+</div>
+
+<!-- EXERCICIO 1 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num">1</div>
+    <div>
+      <div class="ex-titulo">math — raiz quadrada</div>
+      <div class="ex-sub">⏱ estimativa: 15 minutos</div>
+    </div>
+  </div>
+  <div class="objetivo"><strong>Objetivo:</strong> usar <code>import math</code> e <code>math.sqrt</code>.</div>
+  <div class="passo"><div class="passo-n">1</div><p><strong>Crie um arquivo</strong> <code>math_teste.py</code> e copie:</p></div>
+  <div class="code">import math
+
+n = float(input("Digite um número: "))
+print("Raiz:", math.sqrt(n))</div>
+  <div class="desafio"><div class="dt">⚡ Desafio</div><p>Mostre também o número arredondado para 2 casas usando <code>round(n, 2)</code> (função do Python).</p></div>
+</div>
+
+<!-- EXERCICIO 2 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num verde">2</div>
+    <div>
+      <div class="ex-titulo">random — sorteio (bônus)</div>
+      <div class="ex-sub">⏱ estimativa: 15 minutos</div>
+    </div>
+  </div>
+  <div class="objetivo"><strong>Objetivo:</strong> usar <code>import random</code> e <code>random.randint</code>.</div>
+  <div class="passo"><div class="passo-n">1</div><p><strong>Crie um arquivo</strong> <code>random_teste.py</code> e copie:</p></div>
+  <div class="code verde-border">import random
+
+bonus = random.randint(1, 10)
+print("Bônus sorteado:", bonus)</div>
+  <div class="desafio"><div class="dt">⚡ Desafio</div><p>Faça o programa sortear 3 números e mostrar a soma deles.</p></div>
+</div>
+
+<!-- EXERCICIO 3 -->
+<div class="exercicio">
+  <div class="ex-header">
+    <div class="ex-num roxo">3</div>
+    <div>
+      <div class="ex-titulo">Mini-desafio integrador (fechamento)</div>
+      <div class="ex-sub">⏱ estimativa: 50 minutos</div>
+    </div>
+  </div>
+  <div class="objetivo"><strong>Objetivo:</strong> juntar: input + lista/dicionário + função média + if/else + random.</div>
+  <div class="passo"><div class="passo-n">1</div><p><strong>Crie</strong> <code>desafio_final.py</code></p></div>
+  <div class="passo"><div class="passo-n">2</div><p><strong>Copie este esqueleto</strong> e complete as partes indicadas:</p></div>
+
+  <div class="code roxo-border">import random
+
+# 1) Função média (pode reaproveitar do bimestre)
+def media(notas):
+    return sum(notas) / len(notas)
+
+# 2) Entradas
+nome = input("Nome: ")
+notas = []
+for i in range(1, 4):
+    n = float(input(f"Nota {i}: "))
+    notas.append(n)
+
+# 3) Processamento
+m = media(notas)
+
+# 4) Saída (situação)
+print("Aluno:", nome)
+print("Notas:", notas)
+print("Média:", m)
+
+if m >= 6:
+    print("Situação: Aprovado")
+else:
+    print("Situação: Reprovado")
+
+# 5) Bônus aleatório
+bonus = random.randint(1, 10)
+print("Bônus:", bonus)</div>
+
+  <div class="desafio"><div class="dt">✅ Entrega</div><p>Mostre para o professor rodando sem erro e com uma saída completa (nome, notas, média, situação e bônus).</p></div>
+</div>
+
+</body>
+</html>
