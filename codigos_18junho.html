@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Códigos 18/06 - Exemplos Python</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; color: #e8eaf6; min-height: 100vh; padding: 30px 18px; }
+  .container { max-width: 980px; margin: 0 auto; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .voltar { background: #1a1d2e; border: 1px solid #2d3154; color: #e8eaf6; border-radius: 50px; padding: 9px 18px; font-weight: 700; font-size: 13px; text-decoration: none; }
+  .voltar:hover { border-color: #4f46e5; }
+  .header { background: linear-gradient(135deg, #1a1d2e, #06202b); border: 1px solid #0891b2; border-radius: 16px; padding: 34px 38px; margin-bottom: 22px; }
+  .badge { display: inline-block; background: #0891b2; color: white; padding: 5px 16px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+  h1 { font-size: 34px; line-height: 1.1; color: white; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: #67e8f9; }
+  .sub { color: #7c83c8; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+  .card { grid-column: span 12; background: #1a1d2e; border: 1px solid #2d3154; border-radius: 14px; padding: 22px 24px; }
+  .card h2 { color: white; font-size: 22px; margin-bottom: 8px; }
+  .card p, .card li { color: #c7cbe8; font-size: 14px; line-height: 1.55; }
+  .card ul { margin-left: 18px; margin-top: 8px; }
+  .mini-label { font-size: 11px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #67e8f9; margin-bottom: 8px; }
+  .code { background: #090c14; border: 1px solid #2d3154; border-left: 3px solid #0891b2; border-radius: 10px; padding: 14px 16px; margin: 14px 0 4px; overflow-x: auto; }
+  pre { font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.65; color: #dbe0ff; white-space: pre; }
+  code { font-family: 'Fira Code', monospace; color: #67e8f9; }
+  .dica { background: rgba(8,145,178,0.10); border: 1px solid #0891b2; border-radius: 12px; padding: 14px 16px; margin-top: 12px; }
+  .resumo { background: rgba(52,211,153,0.08); border-color: #059669; }
+  .resumo h2 { color: #34d399; }
+  @media (max-width: 760px) {
+    .header { padding: 28px 24px; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <a class="voltar" href="index.html">&larr; Voltar para aulas</a>
+    <span class="sub">UCII - Programação Aplicada - 3º Ano A</span>
+  </div>
+
+  <header class="header">
+    <div class="badge">18/06/2026 - Exemplos Python</div>
+    <h1>Códigos prontos para praticar:<br><span>função, if/else e random</span></h1>
+    <p class="sub">Cinco cenários próximos do cotidiano para treinar a estrutura do mini-desafio final.</p>
+  </header>
+
+  <main class="grid">
+    <section class="card resumo">
+      <div class="mini-label">Antes de começar</div>
+      <h2>O padrão dos exemplos</h2>
+      <ul>
+        <li>Cada código usa <code>import random</code> para sorteio.</li>
+        <li>Cada código tem uma função simples para calcular alguma coisa.</li>
+        <li>Cada código recebe dados com <code>input()</code>.</li>
+        <li>Cada código usa <code>if/else</code> para tomar uma decisão.</li>
+      </ul>
+      <div class="dica">
+        <p>Para testar no Trinket, copie um exemplo por vez em <code>main.py</code> e clique em Run.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="mini-label">Cenário 1</div>
+      <h2>Venda de roupa</h2>
+      <p>Calcula o total da compra e sorteia um cupom quando o valor permite desconto.</p>
+      <div class="code"><pre>import random
+
+def calcular_total(preco, quantidade):
+    return preco * quantidade
+
+cliente = input("Nome do cliente: ")
+peca = input("Peça de roupa: ")
+preco = float(input("Preço da peça: "))
+quantidade = int(input("Quantidade: "))
+
+total = calcular_total(preco, quantidade)
+cupom = random.randint(5, 20)
+
+print("Cliente:", cliente)
+print("Peça:", peca)
+print("Quantidade:", quantidade)
+print("Total sem desconto:", total)
+print("Cupom sorteado:", cupom, "%")
+
+if total >= 100:
+    desconto = total * cupom / 100
+    total_final = total - desconto
+    print("Desconto aplicado:", desconto)
+    print("Total final:", total_final)
+else:
+    print("Compra abaixo de R$100. Sem desconto especial.")</pre></div>
+    </section>
+
+    <section class="card">
+      <div class="mini-label">Cenário 2</div>
+      <h2>Veterinária</h2>
+      <p>Calcula uma idade aproximada do pet e sorteia a senha de atendimento.</p>
+      <div class="code"><pre>import random
+
+def calcular_idade_humana(idade_pet):
+    return idade_pet * 7
+
+pet = input("Nome do pet: ")
+tipo = input("Tipo do animal: ")
+idade = int(input("Idade do pet: "))
+
+idade_humana = calcular_idade_humana(idade)
+senha = random.randint(1, 50)
+
+print("Pet:", pet)
+print("Tipo:", tipo)
+print("Idade aproximada em anos humanos:", idade_humana)
+print("Senha de atendimento:", senha)
+
+if idade >= 8:
+    print("Atenção: pet idoso, recomendar check-up.")
+else:
+    print("Pet jovem/adulto, atendimento normal.")</pre></div>
+    </section>
+
+    <section class="card">
+      <div class="mini-label">Cenário 3</div>
+      <h2>Boletim escolar</h2>
+      <p>Usa lista de notas, calcula a média e sorteia um pequeno bônus.</p>
+      <div class="code"><pre>import random
+
+def media(notas):
+    return sum(notas) / len(notas)
+
+aluno = input("Nome do aluno: ")
+notas = []
+
+for i in range(1, 4):
+    nota = float(input(f"Nota {i}: "))
+    notas.append(nota)
+
+m = media(notas)
+bonus = random.randint(0, 1)
+media_final = m + bonus
+
+print("Aluno:", aluno)
+print("Notas:", notas)
+print("Média:", m)
+print("Bônus sorteado:", bonus)
+print("Média final:", media_final)
+
+if media_final >= 6:
+    print("Situação: Aprovado")
+else:
+    print("Situação: Recuperação")</pre></div>
+    </section>
+
+    <section class="card">
+      <div class="mini-label">Cenário 4</div>
+      <h2>Pizzaria</h2>
+      <p>Calcula o total do pedido e sorteia um brinde para compras maiores.</p>
+      <div class="code"><pre>import random
+
+def calcular_pedido(valor_pizza, quantidade):
+    return valor_pizza * quantidade
+
+cliente = input("Nome do cliente: ")
+sabor = input("Sabor da pizza: ")
+valor = float(input("Valor da pizza: "))
+quantidade = int(input("Quantidade: "))
+
+total = calcular_pedido(valor, quantidade)
+brinde = random.choice(["Refrigerante", "Borda recheada", "Cupom de desconto"])
+
+print("Cliente:", cliente)
+print("Sabor:", sabor)
+print("Quantidade:", quantidade)
+print("Total:", total)
+
+if total >= 80:
+    print("Pedido ganhou brinde:", brinde)
+else:
+    print("Pedido simples, sem brinde especial.")</pre></div>
+    </section>
+
+    <section class="card">
+      <div class="mini-label">Cenário 5</div>
+      <h2>Oficina mecânica</h2>
+      <p>Registra carro, serviço, peças e mecânico; depois calcula orçamento e prazo.</p>
+      <div class="code"><pre>import random
+
+def calcular_total(servico, peca):
+    return servico + peca
+
+cliente = input("Nome do cliente: ")
+carro = input("Modelo do carro: ")
+servico_nome = input("Serviço realizado: ")
+peca_nome = input("Peça trocada: ")
+mecanico = input("Nome do mecânico: ")
+
+valor_servico = float(input("Valor do serviço: "))
+valor_peca = float(input("Valor da peça: "))
+
+total = calcular_total(valor_servico, valor_peca)
+prazo = random.randint(1, 5)
+
+ordem_servico = {
+    "cliente": cliente,
+    "carro": carro,
+    "serviço": servico_nome,
+    "peça": peca_nome,
+    "mecânico": mecanico,
+    "total": total
+}
+
+print("Ordem de serviço:", ordem_servico)
+print("Prazo estimado:", prazo, "dias")
+
+if total >= 500:
+    print("Serviço grande. Revisar orçamento com o cliente.")
+else:
+    print("Serviço simples. Pode seguir com aprovação rápida.")</pre></div>
+    </section>
+
+    <section class="card resumo">
+      <h2>Desafio para adaptar</h2>
+      <p>Escolha um exemplo e mude o tema, as mensagens e a regra do <code>if/else</code>. O objetivo é perceber que a estrutura do programa continua parecida, mesmo quando o problema muda.</p>
+    </section>
+  </main>
+</div>
+</body>
+</html>
