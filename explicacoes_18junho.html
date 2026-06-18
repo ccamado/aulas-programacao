@@ -89,24 +89,27 @@ print(sqrt(25))</pre></div>
         </div>
       </div>
       <div class="aviso">
-        <p><strong>Qual é a diferença prática?</strong> Com <code>import math</code>, fica bem claro de onde a função veio: <code>math.sqrt()</code>. Com <code>from math import sqrt</code>, o código fica mais curto: <code>sqrt()</code>.</p>
+        <p><strong>Qual é a diferença prática?</strong> Para quem está aprendendo, <code>import math</code> costuma ser mais didático porque a chamada <code>math.sqrt()</code> mostra a origem da função. Já <code>from math import sqrt</code> deixa o código mais curto, mas a origem aparece só no import do início.</p>
       </div>
     </section>
 
     <section class="card">
       <div class="mini-label">Boa prática</div>
-      <h2>O que se ganha importando apenas o necessário?</h2>
+      <h2>Então qual forma usar no começo?</h2>
       <ul>
-        <li>O código mostra exatamente quais ferramentas está usando.</li>
-        <li>Fica mais fácil ler, estudar e corrigir.</li>
-        <li>Evita confusão quando bibliotecas diferentes possuem nomes parecidos.</li>
-        <li>Em projetos maiores, ajuda a manter o programa mais organizado.</li>
+        <li>Para aprender, prefira <code>import math</code> e use <code>math.sqrt()</code>, <code>math.ceil()</code> e <code>math.floor()</code>.</li>
+        <li>Assim fica visível que a função veio do módulo <code>math</code>.</li>
+        <li>Depois que entender bem, você pode usar <code>from math import sqrt</code> para escrever menos.</li>
+        <li>O importante é não misturar muitas formas no mesmo exercício.</li>
       </ul>
-      <div class="code"><pre>from math import sqrt, ceil, floor
+      <div class="code"><pre>import math
 
-print(sqrt(25))
-print(ceil(6.2))
-print(floor(6.8))</pre></div>
+print(math.sqrt(25))
+print(math.ceil(6.2))
+print(math.floor(6.8))</pre></div>
+      <div class="aviso">
+        <p><strong>Forma mais curta, para depois:</strong> <code>from math import sqrt, ceil, floor</code> permite escrever <code>sqrt(25)</code>, mas quem lê precisa olhar o import para saber de onde veio cada função.</p>
+      </div>
       <div class="aviso">
         <p>Evite <code>from math import *</code> no início dos estudos. Ele importa tudo e pode deixar confuso de onde cada função veio.</p>
       </div>
@@ -185,27 +188,27 @@ print(nomes)</pre></div>
     <section class="card metade resumo">
       <h2>Mini-desafio</h2>
       <p>Junte as ideias da aula: calcular uma raiz, arredondar uma média, sortear um bônus e escolher uma mensagem motivacional.</p>
-      <div class="code"><pre>from math import sqrt, ceil
-from random import randint, choice
+      <div class="code"><pre>import math
+import random
 
 media = 6.2
-bonus = randint(1, 10)
+bonus = random.randint(1, 10)
 mensagens = ["Continue praticando", "Bom trabalho", "Você evoluiu"]
 
-print("Raiz:", sqrt(25))
-print("Média arredondada:", ceil(media))
+print("Raiz:", math.sqrt(25))
+print("Média arredondada:", math.ceil(media))
 print("Bônus:", bonus)
-print(choice(mensagens))</pre></div>
+print(random.choice(mensagens))</pre></div>
     </section>
 
     <section class="card resumo">
       <h2>Resumo para copiar</h2>
       <ul>
         <li>Biblioteca padrão = módulos que já vêm com o Python.</li>
-        <li><code>import math</code> importa o módulo inteiro e usa <code>math.sqrt()</code>.</li>
-        <li><code>from math import sqrt</code> importa apenas o necessário e usa <code>sqrt()</code>.</li>
+        <li><code>import math</code> importa o módulo e deixa a origem clara na chamada: <code>math.sqrt()</code>.</li>
+        <li><code>from math import sqrt</code> deixa a chamada mais curta: <code>sqrt()</code>, mas a origem aparece só no import.</li>
         <li><code>math</code> ajuda em cálculos; <code>random</code> ajuda em sorteios.</li>
-        <li>Importar apenas o necessário melhora a clareza e a organização do código.</li>
+        <li>Para o primeiro contato, <code>math.sqrt()</code> e <code>random.randint()</code> são mais didáticos.</li>
       </ul>
     </section>
   </main>
