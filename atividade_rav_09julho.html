@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudo Dirigido RAV - Programação Aplicada I</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; color: #e8eaf6; min-height: 100vh; padding: 28px 18px; }
+  .page { max-width: 960px; margin: 0 auto; }
+  .hero { background: linear-gradient(135deg, #102820, #123b30); border: 1px solid #059669; border-radius: 16px; padding: 30px 34px; margin-bottom: 22px; }
+  .badge { display: inline-block; background: #059669; color: white; border-radius: 50px; padding: 5px 14px; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  h1 { color: white; font-size: 31px; line-height: 1.15; margin-bottom: 8px; }
+  h1 span, h2 span { color: #6ee7b7; }
+  .hero p { color: #aeb4d8; font-size: 14px; line-height: 1.6; }
+  .card { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 14px; padding: 22px 26px; margin-bottom: 18px; }
+  .tag { color: #6ee7b7; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { color: white; font-size: 22px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #2d3154; }
+  p, li { color: #c7cbe8; font-size: 14px; line-height: 1.6; }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .step { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px; }
+  .step strong { display: block; color: white; margin-bottom: 8px; }
+  .num { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border-radius: 50%; background: #059669; color: white; font-weight: 900; margin-bottom: 10px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .btn { display: inline-block; color: white; text-decoration: none; border-radius: 8px; padding: 10px 16px; font-weight: 800; font-size: 14px; }
+  .download { background: #4f46e5; }
+  .email { background: #b45309; }
+  .back { background: #2d3154; }
+  .note { background: rgba(190,18,60,.12); border: 1px solid #be123c; border-radius: 10px; padding: 14px 16px; color: #fecdd3; margin-top: 12px; }
+  .note strong { color: #fff; }
+  .copy { background: #090c14; border: 1px solid #2d3154; border-left: 4px solid #059669; border-radius: 10px; padding: 14px 16px; margin-top: 12px; color: #d7daf0; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.75; white-space: pre-wrap; }
+  .criteria { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .mini { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px; }
+  .mini strong { color: white; display: block; margin-bottom: 8px; }
+  @media (max-width: 760px) { .hero, .card { padding: 22px; } h1 { font-size: 25px; } .steps, .criteria { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="badge">RAV · 09/07/2026 · 3º Ano A</div>
+    <h1>Estudo Dirigido RAV:<br><span>Programação Aplicada I</span></h1>
+    <p>Atividade de consolidação de habilidades. Não é prova e não terá nota numérica na folha. O acompanhamento será feito por conceito, considerando participação, aproveitamento e compreensão.</p>
+  </section>
+
+  <section class="card">
+    <div class="tag">Como entregar</div>
+    <h2>Faça em <span>3 passos</span></h2>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><strong>Baixe o modelo</strong><p>Abra o arquivo Word, preencha seu nome e responda às habilidades com suas palavras.</p></div>
+      <div class="step"><div class="num">2</div><strong>Grave o áudio</strong><p>Explique uma das habilidades em um áudio curto de 1 a 3 minutos.</p></div>
+      <div class="step"><div class="num">3</div><strong>Envie por e-mail</strong><p>Anexe o Word preenchido e o áudio para o professor.</p></div>
+    </div>
+    <div class="actions">
+      <a class="btn download" href="Estudo_Dirigido_RAV_Programacao_Aplicada_I.docx" download>Baixar Template DOCX</a>
+      <a class="btn email" href="mailto:ccamado.amado@gmail.com?subject=RAV%20-%20Programa%C3%A7%C3%A3o%20Aplicada%20I%20-%20Nome%20do%20aluno&body=Professor%2C%20segue%20em%20anexo%20minha%20atividade%20RAV%20preenchida%20e%20meu%20%C3%A1udio%20de%20socializa%C3%A7%C3%A3o.">Abrir e-mail para envio</a>
+      <a class="btn back" href="index.html">Voltar para aulas</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Envio por e-mail</div>
+    <h2>Dados para o <span>envio</span></h2>
+    <p>Envie a atividade preenchida e o áudio para:</p>
+    <div class="copy">ccamado.amado@gmail.com
+
+Assunto do e-mail:
+RAV - Programação Aplicada I - Nome do aluno
+
+Anexos:
+1. Atividade preenchida em Word (.docx)
+2. Áudio de socialização (.mp3, .m4a, .ogg ou áudio do celular)</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Áudio de socialização</div>
+    <h2>Orientação importante sobre o <span>áudio</span></h2>
+    <p>O áudio serve para você explicar uma habilidade estudada. Fale de forma simples, como se estivesse explicando para um colega.</p>
+    <div class="note"><strong>Não fale seu nome no áudio.</strong> Não é necessário se identificar na gravação, pois seu nome já estará registrado no arquivo da atividade preenchida e no e-mail enviado.</div>
+    <div class="copy">No áudio, responda:
+
+1. Qual habilidade você escolheu?
+2. O que você entendeu sobre essa habilidade?
+3. Dê um exemplo simples.
+4. Onde isso poderia aparecer em um programa real?
+
+Duração sugerida: 1 a 3 minutos.</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Habilidades</div>
+    <h2>O que será <span>retomado</span></h2>
+    <ol>
+      <li>Compreender variáveis, entrada e saída de dados.</li>
+      <li>Usar decisões com if/else.</li>
+      <li>Organizar código com funções, parâmetros e return.</li>
+      <li>Usar listas e dicionários para guardar dados.</li>
+      <li>Reconhecer o uso de bibliotecas com import.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <div class="tag">Acompanhamento</div>
+    <h2>Conceitos, sem <span>nota numérica</span></h2>
+    <div class="criteria">
+      <div class="mini"><strong>Conceitos possíveis</strong><p>Incompleto, Em desenvolvimento, Habilidade parcialmente consolidada, Habilidade consolidada ou Habilidade consolidada com autonomia.</p></div>
+      <div class="mini"><strong>Itens observados</strong><p>Participação, respostas com palavras próprias, organização, exemplos coerentes, atividade preenchida e áudio enviado.</p></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
