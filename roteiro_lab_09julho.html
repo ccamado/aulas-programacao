@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Roteiro Lab 09/07 - RAV de Programação Aplicada</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{max-width:860px;margin:auto;padding:30px;background:#0f1117;color:#e8eaf6;font-family:Nunito,sans-serif}.header{padding:28px 32px;margin-bottom:24px;border:1px solid #059669;border-radius:16px;background:linear-gradient(135deg,#102820,#123b30)}.badge{display:inline-block;padding:4px 14px;margin-bottom:12px;border-radius:50px;background:#059669;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}.header h1{font-size:28px;margin-bottom:6px}.header h1 span{color:#6ee7b7}.header p{color:#aeb4d8;font-size:13px}.notice{padding:14px 18px;margin-bottom:20px;border:1px solid #be123c;border-radius:10px;background:rgba(190,18,60,.1);color:#fecdd3;font-size:13px}.online{padding:16px 24px;margin-bottom:24px;border:2px solid #34d399;border-radius:12px;background:#090c14;text-align:center}.online strong{display:block;color:#34d399;font:600 20px 'Fira Code'}.online span{color:#aeb4d8;font-size:12px}.exercise{padding:24px 28px;margin-bottom:20px;border:1px solid #2d3154;border-radius:14px;background:#1a1d2e}.ex-head{display:flex;align-items:center;gap:14px;padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid #2d3154}.num{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:50%;background:#059669;font-size:16px;font-weight:900}.blue{background:#0891b2}.purple{background:#7c3aed}.ex-head h2{font-size:17px}.ex-head small{color:#aeb4d8;font-size:12px}.objective{padding:10px 14px;margin-bottom:16px;border-left:3px solid #059669;border-radius:6px;background:rgba(5,150,105,.1);color:#c7cbe8;font-size:13px}.objective strong{color:#6ee7b7}.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}.step b{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #059669;border-radius:50%;background:#0f1117;color:#6ee7b7;font-size:12px}.step p{color:#c7cbe8;font-size:13px;line-height:1.5}.code{padding:14px 18px;margin:10px 0;border:1px solid #2d3154;border-left:3px solid #059669;border-radius:8px;background:#090c14;color:#d7daf0;font:13px/1.8 'Fira Code';white-space:pre-wrap;overflow-wrap:anywhere}.hint{padding:14px 18px;margin-top:14px;border:1px solid #0891b2;border-radius:10px;background:rgba(8,145,178,.1);color:#c7cbe8;font-size:13px}.hint h3{margin-bottom:8px;color:#67e8f9;font-size:11px;letter-spacing:2px;text-transform:uppercase}.checks{list-style:none}.checks li{padding:8px 0;border-bottom:1px solid #2d3154;color:#c7cbe8;font-size:13px}.checks li:before{content:'□';margin-right:10px;color:#6ee7b7;font-weight:900}code{font-family:'Fira Code'}@media(max-width:650px){body{padding:16px}.header,.exercise{padding:20px}.header h1{font-size:24px}.online strong{font-size:15px;overflow-wrap:anywhere}.code{font-size:11px}}
+</style></head><body>
+<header class="header"><div class="badge">Roteiro de Laboratório · 09/07/2026</div><h1>RAV: <span>Funções, Decisão e Listas</span></h1><p>UCII – Programação Aplicada · 3º Ano A · Prof. Claudio Amado · 2 tempos (100 min)</p></header>
+<div class="notice"><strong>Objetivo da RAV:</strong> recuperar os conhecimentos essenciais já estudados. Faça uma etapa por vez, execute o código e peça ajuda exatamente no ponto em que surgir a dúvida.</div>
+<div class="online"><strong>https://trinket.io/python3</strong><span>Ambiente online opcional. Abra Python 3 e clique em Run.</span></div>
+<section class="exercise"><div class="ex-head"><div class="num">1</div><div><h2>Aquecimento guiado: função e return</h2><small>Estimativa: 20 minutos</small></div></div><div class="objective"><strong>Objetivo:</strong> reconhecer parâmetro, argumento, chamada e valor devolvido.</div><div class="step"><b>1</b><p>Crie <code>aquecimento.py</code> e digite:</p></div><div class="code">def triplo(numero):
+    return numero * 3
+
+valor = float(input("Digite um número: "))
+resultado = triplo(valor)
+print("O triplo é:", resultado)</div><div class="step"><b>2</b><p>Execute com os valores <strong>4</strong> e <strong>10</strong>.</p></div><div class="step"><b>3</b><p>Explique: qual é o parâmetro, quais foram os argumentos e o que <code>return</code> devolveu?</p></div></section>
+<section class="exercise"><div class="ex-head"><div class="num blue">2</div><div><h2>Checkpoint 1: função com decisão</h2><small>Estimativa: 30 minutos</small></div></div><div class="objective"><strong>Objetivo:</strong> criar e testar uma função usando parâmetro, if/else e return.</div><div class="step"><b>1</b><p>Crie <code>checkpoint_funcoes.py</code> e a função <code>calcular_desconto(preco)</code>.</p></div><div class="step"><b>2</b><p>Se o preço for maior ou igual a R$ 100, devolva o valor com 10% de desconto. Caso contrário, devolva o preço original.</p></div><div class="step"><b>3</b><p>Leia o preço, chame a função e mostre o valor final.</p></div><div class="step"><b>4</b><p>Teste com <strong>R$ 80</strong> e <strong>R$ 150</strong>.</p></div><div class="hint"><h3>Pista, use somente se travar</h3><div class="code">def calcular_desconto(preco):
+    if preco >= 100:
+        # devolva preco * 0.90
+    else:
+        # devolva o preco original</div></div></section>
+<section class="exercise"><div class="ex-head"><div class="num purple">3</div><div><h2>Checkpoint 2: lista de notas</h2><small>Estimativa: 35 minutos</small></div></div><div class="objective"><strong>Objetivo:</strong> criar uma lista, adicionar valores e calcular resultados.</div><div class="step"><b>1</b><p>Crie <code>checkpoint_listas.py</code>.</p></div><div class="step"><b>2</b><p>Leia cinco notas e adicione cada uma com <code>append()</code>.</p></div><div class="step"><b>3</b><p>Mostre a lista, a média e a maior nota.</p></div><div class="step"><b>4</b><p>Conte quantas notas são maiores ou iguais a 6.</p></div><div class="code">notas = []
+
+for i in range(5):
+    nota = float(input(f"Nota {i + 1}: "))
+    notas.append(nota)
+
+media = sum(notas) / len(notas)
+maior = max(notas)
+aprovadas = 0
+
+for nota in notas:
+    if nota >= 6:
+        aprovadas = aprovadas + 1
+
+print("Notas:", notas)
+print("Média:", media)
+print("Maior nota:", maior)
+print("Notas aprovadas:", aprovadas)</div><div class="hint"><h3>Teste recomendado</h3><p>Use <code>7, 5, 8, 4 e 6</code>. A média deve ser <code>6</code>, a maior nota <code>8</code> e devem existir <code>3</code> notas aprovadas.</p></div></section>
+<section class="exercise"><div class="ex-head"><div class="num">4</div><div><h2>Verificação e entrega</h2><small>Estimativa: 15 minutos</small></div></div><div class="objective"><strong>Objetivo:</strong> conferir se os conhecimentos essenciais foram recuperados.</div><ul class="checks"><li>Os dois programas executam sem erro.</li><li>A função usa parâmetro, if/else e return.</li><li>A função foi testada com dois preços.</li><li>A lista recebe exatamente cinco notas.</li><li>O programa mostra média, maior nota e aprovadas.</li><li>Consigo explicar ao professor uma parte de cada código.</li></ul></section>
+</body></html>
