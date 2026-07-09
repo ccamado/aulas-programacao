@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resumo 09/07 - Programação Aplicada I</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Nunito', sans-serif; background: #0f1117; color: #e8eaf6; padding: 28px 18px; }
+  .page { max-width: 940px; margin: 0 auto; }
+  .hero { background: linear-gradient(135deg, #1a1d2e, #18243f); border: 1px solid #4f46e5; border-radius: 16px; padding: 30px 34px; margin-bottom: 22px; }
+  .badge { display: inline-block; background: #4f46e5; color: white; border-radius: 50px; padding: 5px 14px; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  h1 { color: white; font-size: 30px; line-height: 1.15; margin-bottom: 8px; }
+  h1 span, h2 span { color: #818cf8; }
+  .hero p { color: #aeb4d8; font-size: 14px; }
+  .card { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 14px; padding: 22px 26px; margin-bottom: 18px; }
+  .tag { color: #818cf8; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  h2 { color: white; font-size: 22px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #2d3154; }
+  p, li { color: #c7cbe8; font-size: 14px; line-height: 1.6; }
+  ul { padding-left: 20px; }
+  .copy { background: #090c14; border: 1px solid #2d3154; border-left: 4px solid #4f46e5; border-radius: 10px; padding: 16px 18px; margin-top: 12px; color: #d7daf0; font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.75; white-space: pre-wrap; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .mini { background: #0f1117; border: 1px solid #2d3154; border-radius: 12px; padding: 16px; }
+  .mini strong { color: white; display: block; margin-bottom: 6px; }
+  .final { border-color: #059669; background: rgba(5,150,105,.1); }
+  .final h2 span { color: #6ee7b7; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .hero, .card { padding: 22px; } h1 { font-size: 25px; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <section class="hero">
+    <div class="badge">09/07/2026 · Sala de aula</div>
+    <h1>Fechamento do Semestre:<br><span>Programação Aplicada I</span></h1>
+    <p>Resumo geral para organizar no caderno o que foi estudado em Python.</p>
+  </section>
+
+  <section class="card">
+    <div class="tag">Ideia central</div>
+    <h2>Do código solto ao <span>programa organizado</span></h2>
+    <p>Programar é dividir um problema em partes menores, transformar essas partes em instruções e testar se o resultado faz sentido.</p>
+    <div class="copy">Resumo para o caderno:
+Programar é resolver um problema usando passos claros.
+Um programa organizado tem entrada de dados, processamento, decisão e saída.</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Parte 1</div>
+    <h2>Variáveis e <span>entrada de dados</span></h2>
+    <div class="grid">
+      <div class="mini"><strong>Variável</strong><p>Guarda uma informação para ser usada depois.</p></div>
+      <div class="mini"><strong>input()</strong><p>Recebe dados digitados pelo usuário, sempre como texto.</p></div>
+    </div>
+    <div class="copy">nome = input("Digite seu nome: ")
+idade = int(input("Digite sua idade: "))
+
+O input recebe texto.
+Para fazer contas, usamos int() ou float().</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Parte 2</div>
+    <h2>Decisão com <span>if/else</span></h2>
+    <p>O if/else permite que o programa escolha caminhos diferentes de acordo com uma condição.</p>
+    <div class="copy">if media >= 6:
+    print("Aprovado")
+else:
+    print("Reprovado")
+
+A condição media >= 6 pode ser verdadeira ou falsa.</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Parte 3</div>
+    <h2>Funções: <span>def, parâmetro e return</span></h2>
+    <p>Funções organizam o código, evitam repetição e permitem reaproveitar uma solução.</p>
+    <div class="copy">def calcular_media(n1, n2):
+    return (n1 + n2) / 2
+
+resultado = calcular_media(7, 8)
+print(resultado)
+
+n1 e n2 são parâmetros.
+7 e 8 são argumentos.
+return devolve o resultado.</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Parte 4</div>
+    <h2>Listas e <span>dicionários</span></h2>
+    <p>Listas guardam vários valores. Dicionários guardam dados identificados por nome, usando chave e valor.</p>
+    <div class="copy">notas = [7, 8, 6]
+media = sum(notas) / len(notas)
+
+aluno = {
+    "nome": "Ana",
+    "media": 7.5,
+    "situacao": "Aprovada"
+}</div>
+  </section>
+
+  <section class="card">
+    <div class="tag">Parte 5</div>
+    <h2>Import e <span>bibliotecas</span></h2>
+    <p>O import permite usar bibliotecas do Python ou arquivos com funções criadas por nós.</p>
+    <div class="copy">import random
+
+numero = random.randint(1, 10)
+print(numero)
+
+Também podemos importar nossos arquivos:
+import funcoes</div>
+  </section>
+
+  <section class="card final">
+    <div class="tag">Fechamento</div>
+    <h2>Mapa de um <span>programa completo</span></h2>
+    <div class="copy">Problema: calcular a situação de um aluno
+
+1. Ler nome
+2. Ler notas
+3. Calcular média
+4. Verificar se está aprovado
+5. Mostrar resultado
+
+Entrada → Processamento → Decisão → Saída</div>
+  </section>
+</div>
+</body>
+</html>
