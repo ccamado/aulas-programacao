@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roteiro Lab 27/08 - 1º Tempo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Nunito,sans-serif;background:#0f1117;color:#e8eaf6;padding:28px 18px}.container{max-width:880px;margin:0 auto}.header{background:linear-gradient(135deg,#171b35,#16213e);border:1px solid #4f46e5;border-radius:16px;padding:26px 30px;margin-bottom:20px}.badge{display:inline-block;background:#4f46e5;color:white;padding:5px 13px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}h1{font-size:29px;margin-bottom:5px}h1 span{color:#a5b4fc}.sub{color:#8d93b5;font-size:13px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.btn{display:inline-block;text-decoration:none;color:white;border-radius:9px;padding:10px 15px;font-size:13px;font-weight:800}.codebtn{background:#0891b2}.run{background:#059669}.back{background:#2d3154}.step{background:#1a1d2e;border:1px solid #2d3154;border-radius:14px;padding:22px;margin-bottom:16px}.stephead{display:flex;gap:12px;align-items:center;margin-bottom:12px}.num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#4f46e5;font-weight:900}.step h2{font-size:19px}.step p,.step li{font-size:14px;color:#c7cbe8;line-height:1.6}.step ul{margin:10px 0 0 20px}.code{background:#090c14;border:1px solid #2d3154;border-left:3px solid #4f46e5;border-radius:9px;padding:14px 16px;margin-top:12px;white-space:pre-wrap;font:13px/1.7 'Fira Code';color:#d7daf0}.hint{margin-top:12px;border:1px solid #059669;background:rgba(5,150,105,.08);border-radius:9px;padding:12px 14px;color:#c7cbe8;font-size:13px}.test{border-color:#b45309;background:rgba(180,83,9,.08)}.checkpoint{background:#11182c;border:1px solid #0891b2;border-radius:14px;padding:20px;margin-top:20px}.checkpoint h2{color:#67e8f9;margin-bottom:10px}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.checkgrid div{background:#0f1117;border:1px solid #2d3154;padding:11px;border-radius:8px;font-size:13px}.footer{text-align:center;margin-top:24px;color:#596080;font-size:12px}@media(max-width:650px){.checkgrid{grid-template-columns:1fr}.header{padding:22px}.step{padding:18px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="badge">Roteiro de Laboratório · 27/08/2026 · 1º Tempo</div>
+    <h1>Central de Avisos: <span>cadastro funcionando</span></h1>
+    <p class="sub">Programação Aplicada II · 3º A · 07:00–07:50</p>
+  </div>
+
+  <div class="tools">
+    <a class="btn codebtn" href="codigos_27agosto_1tempo.html">💻 Código inicial</a>
+    <a class="btn run" href="https://trinket.io/python3" target="_blank">▶ Abrir Trinket</a>
+    <a class="btn back" href="index.html">← Voltar</a>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">1</div><h2>Abra o código inicial</h2></div>
+    <p>Copie o código inicial para o Trinket e execute antes de alterar qualquer coisa.</p>
+    <ul><li>Teste a opção 1.</li><li>Teste uma opção inválida.</li><li>Teste a opção 0.</li></ul>
+    <div class="hint test"><strong>Observe:</strong> o menu já funciona, mas a opção 1 apenas mostra uma mensagem. Esse é o problema que vamos resolver.</div>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">2</div><h2>Crie a função de cadastro</h2></div>
+    <p>Antes do <code>while</code>, crie uma função chamada <code>cadastrar_aviso()</code>.</p>
+    <div class="code">def cadastrar_aviso():
+    print("\n--- CADASTRO DE AVISO ---")</div>
+    <div class="hint"><strong>Não coloque a função dentro do while.</strong> Primeiro definimos a ação; depois o menu chama essa ação.</div>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">3</div><h2>Leia os dados do aviso</h2></div>
+    <p>Dentro da função, peça três informações ao usuário.</p>
+    <div class="code">titulo = input("Título: ")
+data = input("Data: ")
+tipo = input("Tipo: ")</div>
+    <div class="hint test"><strong>Teste rápido:</strong> use “Prova de Programação”, “03/09/2026” e “prova”.</div>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">4</div><h2>Monte um dicionário</h2></div>
+    <p>Use as variáveis lidas para representar um único aviso.</p>
+    <div class="code">aviso = {
+    "titulo": titulo,
+    "data": data,
+    "tipo": tipo
+}</div>
+    <div class="hint"><strong>Pense:</strong> o dicionário representa um aviso. A lista <code>avisos</code> servirá para guardar vários.</div>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">5</div><h2>Guarde na lista</h2></div>
+    <p>Depois de montar o dicionário, adicione-o à lista.</p>
+    <div class="code">avisos.append(aviso)
+print("Aviso cadastrado com sucesso!")</div>
+    <div class="hint test"><strong>Diagnóstico:</strong> coloque temporariamente <code>print(avisos)</code>, cadastre dois avisos e confirme se aparecem dois dicionários na lista.</div>
+  </div>
+
+  <div class="step">
+    <div class="stephead"><div class="num">6</div><h2>Conecte o cadastro ao menu</h2></div>
+    <p>Substitua a mensagem provisória da opção 1 por uma chamada da função.</p>
+    <div class="code">if opcao == "1":
+    cadastrar_aviso()</div>
+    <div class="hint"><strong>Atenção:</strong> os parênteses em <code>cadastrar_aviso()</code> indicam que a função será executada.</div>
+  </div>
+
+  <div class="checkpoint">
+    <h2>Checkpoint — evidência de aprendizagem</h2>
+    <div class="checkgrid">
+      <div>☐ cadastrei dois avisos</div><div>☐ os dois ficaram na lista</div>
+      <div>☐ a opção inválida continua funcionando</div><div>☐ a opção 0 encerra o programa</div>
+      <div>☐ consigo explicar o dicionário</div><div>☐ consigo explicar o append()</div>
+    </div>
+    <div class="hint test"><strong>Antes de terminar:</strong> retire o <code>print(avisos)</code> de diagnóstico se ele foi usado apenas para teste. No 2º tempo criaremos uma listagem organizada.</div>
+  </div>
+
+  <div class="footer">Problema → raciocínio → código → execução → teste → correção → explicação.</div>
+</div>
+</body>
+</html>
