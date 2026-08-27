@@ -18,6 +18,7 @@
   .bim-title { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #4f46e5; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #2d3154; }
   .aula-card { background: #1a1d2e; border: 1px solid #2d3154; border-radius: 12px; padding: 18px 22px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; transition: border-color 0.2s, transform 0.1s; }
   .aula-card:hover { border-color: #4f46e5; transform: translateX(4px); }
+  .aula-card.destaque { border-color: #0891b2; box-shadow: 0 0 0 1px rgba(8,145,178,.15); }
   .data-badge { color: white; font-weight: 900; font-size: 12px; padding: 6px 12px; border-radius: 8px; text-align: center; min-width: 54px; flex-shrink: 0; line-height: 1.3; }
   .data-badge.azul { background: #0891b2; }
   .data-badge.verde { background: #059669; }
@@ -26,6 +27,7 @@
   .aula-info { flex: 1; }
   .aula-info .titulo { font-size: 15px; font-weight: 700; color: white; margin-bottom: 3px; }
   .aula-info .desc { font-size: 12px; color: #7c83c8; }
+  .aula-info .tempo { display:inline-block; margin-top:6px; padding:3px 8px; border-radius:50px; background:rgba(8,145,178,.15); color:#67e8f9; font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
   .btns { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
   .btn { color: white; border: none; border-radius: 8px; padding: 8px 16px; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.2s; white-space: nowrap; }
   .btn:hover { opacity: 0.85; }
@@ -52,7 +54,25 @@
   <div class="header">
     <div class="escola">CEP Ezequiel Ferreira Lima · 3º Ano A · 2026</div>
     <h1>UCII — <span>Programação Aplicada</span></h1>
-    <p>Prof. Claudio Amado · Material das aulas · 2º Bimestre</p>
+    <p>Prof. Claudio Amado · Material das aulas · 2026</p>
+  </div>
+
+  <div class="bimestre">
+    <div class="bim-title">3º Bimestre — Agosto / Outubro 2026</div>
+
+    <div class="aula-card destaque">
+      <div class="data-badge azul">27<br>AGO</div>
+      <div class="aula-info">
+        <div class="titulo">Central de Avisos — Cadastro funcionando</div>
+        <div class="desc">Função cadastrar_aviso() · input · dicionário · append() · integração ao menu</div>
+        <div class="tempo">1º tempo · 07:00–07:50</div>
+      </div>
+      <div class="btns">
+        <a href="aula_27agosto_1tempo_slides.html" class="btn slides">📊 Aula</a>
+        <a href="roteiro_lab_27agosto_1tempo.html" class="btn lab">🧪 Lab</a>
+        <a href="codigos_27agosto_1tempo.html" class="btn codigos">💻 Código inicial</a>
+      </div>
+    </div>
   </div>
 
   <div class="bimestre">
