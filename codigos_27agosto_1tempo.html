@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Códigos 27/08 - 1º Tempo</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Nunito,sans-serif;background:#0f1117;color:#e8eaf6;padding:28px 18px}.container{max-width:900px;margin:0 auto}.top{margin-bottom:22px}.badge{display:inline-block;background:#0891b2;color:white;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}h1{font-size:30px;margin-bottom:7px}h1 span{color:#67e8f9}.sub{color:#8d93b5;font-size:14px}.card{background:#1a1d2e;border:1px solid #2d3154;border-radius:14px;padding:22px;margin-top:18px}.card h2{font-size:20px;margin-bottom:8px}.card p{color:#aeb4d8;line-height:1.55;font-size:14px}.info{margin:14px 0;padding:13px 15px;border-left:3px solid #34d399;background:rgba(52,211,153,.08);border-radius:8px;color:#c7cbe8;font-size:13px}.code{margin-top:14px;background:#090c14;border:1px solid #2d3154;border-left:3px solid #0891b2;border-radius:10px;padding:18px;overflow:auto;white-space:pre;font:13px/1.75 'Fira Code',monospace;color:#d7daf0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.btn{display:inline-block;text-decoration:none;border:0;border-radius:9px;padding:10px 16px;font:700 13px Nunito;cursor:pointer;color:white}.copy{background:#0891b2}.run{background:#059669}.raw{background:#4f46e5}.back{background:#2d3154}.task{margin-top:18px;padding:16px;border:1px solid #7c3aed;border-radius:10px;background:rgba(124,58,237,.08)}.task strong{color:#c4b5fd}.task ul{margin:10px 0 0 20px;color:#c7cbe8;line-height:1.7;font-size:14px}.footer{margin-top:28px;text-align:center;color:#596080;font-size:12px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top">
+    <div class="badge">27/08/2026 · 1º Tempo</div>
+    <h1>Central de Avisos — <span>código inicial</span></h1>
+    <p class="sub">Programação Aplicada II · 3º A · Prof. Claudio Amado</p>
+  </div>
+
+  <div class="card">
+    <h2>Comece por este código</h2>
+    <p>Este é o ponto de partida da aula. Ele já possui o menu contínuo trabalhado anteriormente. Hoje vamos transformar a opção <strong>1 - Cadastrar aviso</strong> em uma ação real.</p>
+    <div class="info"><strong>Importante:</strong> não há solução completa nesta página. A função de cadastro será construída durante a aula.</div>
+
+<pre id="codigo" class="code"># CENTRAL DE AVISOS — 27/08/2026 — 1º TEMPO
+# Código inicial da aula
+
+avisos = []
+
+opcao = ""
+
+while opcao != "0":
+    print("\n========================")
+    print("   CENTRAL DE AVISOS")
+    print("========================")
+    print("1 - Cadastrar aviso")
+    print("2 - Listar avisos")
+    print("0 - Sair")
+
+    opcao = input("\nEscolha uma opção: ")
+
+    if opcao == "1":
+        print("\nCadastro ainda será implementado.")
+
+    elif opcao == "2":
+        print("\nListagem será implementada no 2º tempo.")
+
+    elif opcao == "0":
+        print("\nEncerrando...")
+
+    else:
+        print("\nOpção inválida.")
+
+print("Central encerrada.")</pre>
+
+    <div class="actions">
+      <button class="btn copy" onclick="copiar()">📋 Copiar código</button>
+      <a class="btn run" href="https://trinket.io/python3" target="_blank">▶ Abrir Trinket</a>
+      <a class="btn raw" href="central_avisos_27agosto_1tempo_inicio.py" target="_blank">🐍 Abrir .py</a>
+      <a class="btn back" href="index.html">← Voltar às aulas</a>
+    </div>
+  </div>
+
+  <div class="task">
+    <strong>Meta do 1º tempo</strong>
+    <ul>
+      <li>criar a função <code>cadastrar_aviso()</code>;</li>
+      <li>ler título, data e tipo com <code>input()</code>;</li>
+      <li>montar um dicionário para representar um aviso;</li>
+      <li>usar <code>append()</code> para guardar o aviso na lista;</li>
+      <li>ligar a opção 1 do menu à função de cadastro.</li>
+    </ul>
+  </div>
+
+  <div class="footer">Construa, execute, teste, corrija e explique.</div>
+</div>
+<script>
+function copiar(){
+  const texto=document.getElementById('codigo').innerText;
+  navigator.clipboard.writeText(texto).then(()=>alert('Código copiado! Cole no Trinket.'));
+}
+</script>
+</body>
+</html>
