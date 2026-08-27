@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aula 27/08 - 1º Tempo - Central de Avisos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Nunito,sans-serif;background:#0f1117;color:#e8eaf6;min-height:100vh;padding:16px;display:flex;flex-direction:column;align-items:center}.nav{display:flex;align-items:center;gap:12px;margin-bottom:16px;background:#1a1d2e;padding:10px 20px;border:1px solid #2d3154;border-radius:50px}.nav button{background:#4f46e5;color:#fff;border:0;border-radius:50px;padding:8px 20px;font:700 14px Nunito;cursor:pointer}.nav button:disabled{background:#2d3154;color:#8d93b5;cursor:default}.counter{min-width:60px;text-align:center;color:#aeb4d8;font-size:13px;font-weight:700}.slide{display:none;width:100%;max-width:960px;min-height:540px;padding:42px 50px;border:1px solid #2d3154;border-radius:16px;background:#1a1d2e;overflow:hidden}.slide.active{display:flex;flex-direction:column;justify-content:center}.cover{align-items:center;text-align:center;background:linear-gradient(135deg,#0b1633,#122153 55%,#162b6e);border-color:#4f46e5}.badge{padding:6px 18px;margin-bottom:20px;border-radius:50px;background:#4f46e5;color:#fff;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}.cover h1{font-size:42px;line-height:1.12;margin-bottom:12px}.cover h1 span,.title span{color:#a5b4fc}.sub{color:#aeb4d8;font-size:15px;margin-bottom:26px}.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}.pills span{padding:6px 14px;border:1px solid #4f46e5;border-radius:50px;background:rgba(79,70,229,.16);color:#c7d2fe;font-size:13px;font-weight:700}.tag{color:#818cf8;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}.title{font-size:28px;font-weight:900;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #2d3154}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{padding:16px 18px;border:1px solid #2d3154;border-radius:12px;background:#0f1117}.card h3{margin-bottom:9px;color:#a5b4fc;font-size:12px;letter-spacing:1px;text-transform:uppercase}.card p,.card li{color:#c7cbe8;font-size:13px;line-height:1.55}.card ul{margin-left:18px}.code{padding:14px 18px;margin:8px 0;border:1px solid #2d3154;border-left:3px solid #4f46e5;border-radius:10px;background:#090c14;color:#d7daf0;font:13px/1.72 'Fira Code';white-space:pre-wrap;overflow-wrap:anywhere}.info,.task,.question{padding:12px 16px;margin-top:10px;border:1px solid #4f46e5;border-radius:10px;background:rgba(79,70,229,.1);color:#c7cbe8;font-size:13px;line-height:1.5}.task{border-color:#059669;background:rgba(5,150,105,.1)}.question{border-color:#b45309;background:rgba(180,83,9,.1)}.flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}.box{padding:12px 16px;border:1px solid #2d3154;border-radius:10px;background:#0f1117;font-weight:700;font-size:13px}.arrow{color:#818cf8;font-size:22px;font-weight:900}.check{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check div{padding:11px 14px;border-radius:8px;background:#0f1117;border:1px solid #2d3154;font-size:13px}.notebook{background:#fff;color:#172033}.notebook .tag{color:#4f46e5}.notebook .title{border-color:#d7dbea;color:#172033}.notebook .code{background:#f6f7fb;color:#172033;border-color:#d7dbea;border-left-color:#4f46e5}.notebook p,.notebook li{color:#26324a;font-size:15px;line-height:1.55}.notebook ul{margin-left:22px}.bottom{margin-top:16px;font-size:12px;color:#7c83c8}@media(max-width:720px){body{padding:8px}.nav{width:100%;justify-content:center;padding:8px}.nav button{padding:8px 12px}.slide{min-height:600px;padding:26px 22px}.cover h1{font-size:31px}.title{font-size:23px}.grid,.check{grid-template-columns:1fr}.code{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="nav"><button id="prev" onclick="go(-1)" disabled>← Anterior</button><span class="counter" id="counter">1 / 9</span><button id="next" onclick="go(1)">Próximo →</button></div>
+
+<section class="slide cover active">
+  <div class="badge">27/08/2026 · 1º Tempo · 07:00–07:50</div>
+  <h1>Central de Avisos<br><span>fazendo o cadastro funcionar</span></h1>
+  <p class="sub">Programação Aplicada II · 3º A · Prof. Claudio Amado</p>
+  <div class="pills"><span>funções</span><span>dicionários</span><span>listas</span><span>append()</span><span>while</span></div>
+</section>
+
+<section class="slide">
+  <div class="tag">Continuidade</div><h2 class="title">O menu já funciona. <span>Mas a opção 1 ainda não.</span></h2>
+  <div class="code">if opcao == "1":
+    print("Cadastro ainda será implementado.")</div>
+  <div class="question"><strong>Pergunta:</strong> o que precisa acontecer para “Cadastrar aviso” deixar de ser só uma mensagem?</div>
+  <div class="flow"><div class="box">ler dados</div><div class="arrow">→</div><div class="box">montar aviso</div><div class="arrow">→</div><div class="box">guardar na lista</div></div>
+</section>
+
+<section class="slide">
+  <div class="tag">Passo 1</div><h2 class="title">Uma ação do sistema pode virar uma <span>função</span></h2>
+  <div class="code">def cadastrar_aviso():
+    print("\n--- CADASTRO DE AVISO ---")</div>
+  <div class="grid">
+    <div class="card"><h3>Por que função?</h3><p>Ela organiza uma ação do sistema em um bloco com nome claro.</p></div>
+    <div class="card"><h3>Leitura</h3><p>“Quando eu chamar <code>cadastrar_aviso()</code>, execute o cadastro.”</p></div>
+  </div>
+  <div class="question">Onde essa função deve ser definida: antes ou dentro do <code>while</code>?</div>
+</section>
+
+<section class="slide">
+  <div class="tag">Passo 2</div><h2 class="title">Primeiro precisamos <span>receber os dados</span></h2>
+  <div class="code">titulo = input("Título: ")
+data = input("Data: ")
+tipo = input("Tipo: ")</div>
+  <div class="task"><strong>Teste:</strong> use um aviso realista, por exemplo: “Prova de Programação”, “03/09/2026”, “prova”.</div>
+  <div class="question">Depois dos três <code>input()</code>, onde estão esses dados?</div>
+</section>
+
+<section class="slide">
+  <div class="tag">Passo 3</div><h2 class="title">Um aviso pode ser representado por um <span>dicionário</span></h2>
+  <div class="code">aviso = {
+    "titulo": titulo,
+    "data": data,
+    "tipo": tipo
+}</div>
+  <div class="grid">
+    <div class="card"><h3>Chaves</h3><p><code>titulo</code>, <code>data</code> e <code>tipo</code> identificam cada informação.</p></div>
+    <div class="card"><h3>Valores</h3><p>São os dados digitados pelo usuário.</p></div>
+  </div>
+  <div class="question">Esse dicionário representa um aviso ou vários avisos?</div>
+</section>
+
+<section class="slide">
+  <div class="tag">Passo 4</div><h2 class="title">Agora precisamos guardar o aviso na <span>lista</span></h2>
+  <div class="code">avisos.append(aviso)</div>
+  <div class="flow"><div class="box">aviso = {...}</div><div class="arrow">→</div><div class="box">append()</div><div class="arrow">→</div><div class="box">avisos = [ ... ]</div></div>
+  <div class="info"><strong>Ideia central:</strong> o dicionário representa UM aviso; a lista guarda VÁRIOS avisos.</div>
+  <div class="task">Cadastre dois avisos e, temporariamente, use <code>print(avisos)</code> para conferir se ambos foram armazenados.</div>
+</section>
+
+<section class="slide">
+  <div class="tag">Integração</div><h2 class="title">Ligue a função à opção <span>1 do menu</span></h2>
+  <div class="code">if opcao == "1":
+    cadastrar_aviso()</div>
+  <div class="grid">
+    <div class="card"><h3>Controle</h3><p>O <code>while</code> mantém o menu funcionando.</p></div>
+    <div class="card"><h3>Ação</h3><p>O <code>if</code> identifica a escolha e chama a função.</p></div>
+  </div>
+  <div class="question">Qual é a diferença entre escrever <code>cadastrar_aviso</code> e <code>cadastrar_aviso()</code>?</div>
+</section>
+
+<section class="slide">
+  <div class="tag">Evidência de aprendizagem</div><h2 class="title">Checkpoint do <span>1º tempo</span></h2>
+  <div class="check">
+    <div>☐ O menu continua repetindo</div><div>☐ A opção 1 chama uma função</div>
+    <div>☐ A função lê título, data e tipo</div><div>☐ Um dicionário representa o aviso</div>
+    <div>☐ <code>append()</code> adiciona à lista</div><div>☐ Dois cadastros ficam armazenados</div>
+  </div>
+  <div class="task"><strong>Explique ao professor/colega:</strong> onde fica um aviso? Onde ficam vários avisos? O que o <code>append()</code> faz?</div>
+  <div class="bottom">Próximo passo no 2º tempo: mostrar os avisos armazenados de forma organizada.</div>
+</section>
+
+<section class="slide notebook">
+  <div class="tag">Registro no caderno</div><h2 class="title">Central de Avisos — <span>cadastro</span></h2>
+  <p><strong>Função</strong> organiza uma ação do programa.</p>
+  <p><strong>Dicionário</strong> representa um aviso com pares chave:valor.</p>
+  <p><strong>Lista</strong> guarda vários avisos.</p>
+  <p><strong>append()</strong> adiciona um novo aviso à lista.</p>
+  <div class="code">aviso = {
+    "titulo": titulo,
+    "data": data,
+    "tipo": tipo
+}
+
+avisos.append(aviso)</div>
+  <p><strong>Fluxo do cadastro:</strong> entrada → dicionário → append() → lista.</p>
+</section>
+
+<script>
+let current=0;const slides=document.querySelectorAll('.slide');const counter=document.getElementById('counter');const prev=document.getElementById('prev');const next=document.getElementById('next');function go(step){slides[current].classList.remove('active');current=Math.max(0,Math.min(slides.length-1,current+step));slides[current].classList.add('active');counter.textContent=(current+1)+' / '+slides.length;prev.disabled=current===0;next.disabled=current===slides.length-1}document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(1);if(e.key==='ArrowLeft')go(-1)});
+</script>
+</body>
+</html>
