@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Códigos 27/08 - 2º Tempo</title><style>@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Nunito:wght@400;700;900&display=swap');*{box-sizing:border-box;margin:0;padding:0}body{font-family:Nunito,sans-serif;background:#0f1117;color:#e8eaf6;padding:28px 18px}.container{max-width:900px;margin:auto}.badge{display:inline-block;background:#0891b2;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}h1{font-size:30px}h1 span{color:#67e8f9}.sub{color:#8d93b5}.card{background:#1a1d2e;border:1px solid #2d3154;border-radius:14px;padding:22px;margin-top:18px}.card h2{font-size:20px;margin-bottom:8px}.card p{color:#aeb4d8;line-height:1.55;font-size:14px}.info{margin:14px 0;padding:13px 15px;border-left:3px solid #34d399;background:rgba(52,211,153,.08);border-radius:8px;color:#c7cbe8;font-size:13px}.code{margin-top:14px;background:#090c14;border:1px solid #2d3154;border-left:3px solid #0891b2;border-radius:10px;padding:18px;overflow:auto;white-space:pre;font:13px/1.75 'Fira Code';color:#d7daf0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.btn{display:inline-block;text-decoration:none;border:0;border-radius:9px;padding:10px 16px;font:700 13px Nunito;cursor:pointer;color:white;background:#2d3154}.copy{background:#0891b2}.run{background:#059669}.raw{background:#4f46e5}.final{border-color:#059669}.footer{text-align:center;margin-top:28px;color:#596080;font-size:12px}@media(max-width:600px){.card{padding:17px}.code{font-size:11px;padding:13px}}</style></head><body><div class="container"><div class="badge">27/08/2026 · 2º Tempo</div><h1>Central de Avisos — <span>códigos de apoio</span></h1><p class="sub">Programação Aplicada II · 3º A · Prof. Claudio Amado</p><div class="actions"><a class="btn run" href="https://trinket.io/python3" target="_blank">▶ Abrir Trinket</a><a class="btn" href="roteiro_lab_27agosto_2tempo.html">🧪 Roteiro</a><a class="btn" href="index.html">← Voltar</a></div>
+<div class="card"><h2>1. Percorrer os avisos</h2><p>Observe um dicionário por vez. Teste antes de continuar.</p><pre id="t1" class="code">for aviso in avisos:
+    print(aviso)</pre><div class="actions"><button class="btn copy" onclick="copiar('t1')">📋 Copiar trecho</button></div></div>
+<div class="card"><h2>2. Acessar os valores</h2><p>Dentro do for, cada chave localiza uma informação do aviso atual.</p><pre id="t2" class="code">print("Título:", aviso["titulo"])
+print("Data:", aviso["data"])
+print("Tipo:", aviso["tipo"])</pre><div class="actions"><button class="btn copy" onclick="copiar('t2')">📋 Copiar trecho</button></div></div>
+<div class="card"><h2>3. Estrutura da função</h2><p>Complete durante a aula com o for e as exibições já testadas.</p><pre id="t3" class="code">def listar_avisos():
+    print("\n--- AVISOS CADASTRADOS ---")
+
+    # complete durante a aula</pre><div class="actions"><button class="btn copy" onclick="copiar('t3')">📋 Copiar estrutura</button></div></div>
+<div class="card final"><h2>Referência final da aula — Central de Avisos v0.1</h2><p>Consulte somente depois de construir, executar, testar e corrigir sua solução.</p><div class="info"><strong>Referência final:</strong> compare por partes e explique cada diferença.</div><pre id="final" class="code"># CENTRAL DE AVISOS v0.1
+# Programa&#231;&#227;o Aplicada II — 3&#186; A — 27/08/2026
+
+avisos = []
+
+
+def cadastrar_aviso():
+    print(&quot;\n--- CADASTRO DE AVISO ---&quot;)
+    titulo = input(&quot;T&#237;tulo: &quot;)
+    data = input(&quot;Data: &quot;)
+    tipo = input(&quot;Tipo: &quot;)
+
+    aviso = {
+        &quot;titulo&quot;: titulo,
+        &quot;data&quot;: data,
+        &quot;tipo&quot;: tipo
+    }
+
+    avisos.append(aviso)
+    print(&quot;\nAviso cadastrado com sucesso!&quot;)
+
+
+def listar_avisos():
+    print(&quot;\n--- AVISOS CADASTRADOS ---&quot;)
+
+    for aviso in avisos:
+        print(&quot;\nT&#237;tulo:&quot;, aviso[&quot;titulo&quot;])
+        print(&quot;Data:&quot;, aviso[&quot;data&quot;])
+        print(&quot;Tipo:&quot;, aviso[&quot;tipo&quot;])
+        print(&quot;------------------------&quot;)
+
+
+opcao = &quot;&quot;
+
+while opcao != &quot;0&quot;:
+    print(&quot;\n========================&quot;)
+    print(&quot;   CENTRAL DE AVISOS&quot;)
+    print(&quot;========================&quot;)
+    print(&quot;1 - Cadastrar aviso&quot;)
+    print(&quot;2 - Listar avisos&quot;)
+    print(&quot;0 - Sair&quot;)
+
+    opcao = input(&quot;\nEscolha uma op&#231;&#227;o: &quot;)
+
+    if opcao == &quot;1&quot;:
+        cadastrar_aviso()
+    elif opcao == &quot;2&quot;:
+        listar_avisos()
+    elif opcao == &quot;0&quot;:
+        print(&quot;\nEncerrando...&quot;)
+    else:
+        print(&quot;\nOp&#231;&#227;o inv&#225;lida.&quot;)
+
+print(&quot;Central encerrada.&quot;)
+</pre><div class="actions"><button class="btn copy" onclick="copiar('final')">📋 Copiar versão final</button><a class="btn raw" href="central_avisos_v01.py" target="_blank">🐍 Abrir Central v0.1</a></div></div>
+<div class="footer">Temos uma primeira versão funcional. Agora precisamos descobrir onde ela falha e como melhorá-la.</div></div><script>function copiar(id){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>alert('Código copiado! Cole no Trinket.'));}</script></body></html>
