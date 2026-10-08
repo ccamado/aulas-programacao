@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08/10/2026 — POO: classe, objeto, atributo e instanciação</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1117;color:#e8eaf6;line-height:1.6}
+header{padding:38px 20px;background:linear-gradient(135deg,#312e81,#0f172a);border-bottom:1px solid #334155}
+.wrap{max-width:980px;margin:auto;padding:24px 20px 60px}.tag{display:inline-block;background:#0891b2;color:white;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}
+h1{font-size:34px;margin:12px 0 4px} h2{margin-top:34px;color:#c7d2fe} h3{color:#67e8f9}
+.card{background:#171b2b;border:1px solid #2d3154;border-radius:14px;padding:20px;margin:18px 0}
+.goal{border-left:5px solid #22c55e}.warn{border-left:5px solid #f59e0b}.exercise{border-left:5px solid #8b5cf6}
+pre{background:#090b12;border:1px solid #2d3154;border-radius:10px;padding:16px;overflow:auto;color:#d1fae5;font-family:Consolas,monospace}
+code{font-family:Consolas,monospace;color:#bfdbfe}.flow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}.box{background:#1e293b;border:1px solid #475569;padding:10px 14px;border-radius:10px;font-weight:700}.arrow{font-size:24px;color:#67e8f9}
+table{width:100%;border-collapse:collapse;margin:15px 0}th,td{border:1px solid #374151;padding:10px;text-align:left}th{background:#1e293b}
+.answer{background:#111827;border-radius:10px;padding:12px 16px;margin-top:10px}
+footer{margin-top:40px;color:#94a3b8;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="tag">CEPEF · 3º A · Programação Aplicada II</span><h1>POO do zero: classe, objeto, atributo e instanciação</h1><p>1º tempo · 08/10/2026 · 07:00–07:50</p></div></header>
+<main class="wrap">
+<div class="card goal"><strong>Objetivo da aula:</strong> entender concretamente a diferença entre classe e objeto, reconhecer atributos e criar objetos a partir de uma classe sem usar herança, polimorfismo ou estruturas complexas.</div>
+
+<h2>1. Começando pelo que já conhecemos</h2>
+<p>Podemos representar um aviso com um dicionário:</p>
+<pre>aviso = {
+    "titulo": "Prova de Programação",
+    "data": "20/10/2026",
+    "tipo": "prova"
+}</pre>
+<p>Funciona, mas se tivermos vários avisos todos repetem a mesma estrutura. A orientação a objetos permite criar um <strong>modelo</strong> para esse tipo de elemento.</p>
+
+<h2>2. Classe = molde</h2>
+<p>Uma <strong>classe</strong> é um modelo usado para criar objetos.</p>
+<pre>class Aviso:
+    pass</pre>
+<div class="flow"><div class="box">Classe = molde</div><div class="arrow">→</div><div class="box">Objeto = elemento criado</div></div>
+<p><code>pass</code> significa apenas que a classe existe, mas ainda não possui conteúdo.</p>
+
+<h2>3. Objeto = ocorrência concreta</h2>
+<pre>class Aviso:
+    pass
+
+aviso1 = Aviso()
+aviso2 = Aviso()</pre>
+<p><code>Aviso</code> é a classe. <code>aviso1</code> e <code>aviso2</code> são objetos diferentes da mesma classe.</p>
+
+<h2>4. Instanciação</h2>
+<p>O processo de criar um objeto a partir de uma classe recebe o nome de <strong>instanciação</strong>.</p>
+<pre>aviso1 = Aviso()</pre>
+<table><tr><th>Trecho</th><th>Significado</th></tr>
+<tr><td><code>Aviso</code></td><td>classe</td></tr>
+<tr><td><code>Aviso()</code></td><td>instanciação</td></tr>
+<tr><td><code>aviso1</code></td><td>objeto / instância</td></tr></table>
+
+<h2>5. Atributos = informações do objeto</h2>
+<pre>aviso1.titulo = "Prova de Programação"
+aviso1.data = "20/10/2026"
+aviso1.tipo = "prova"
+
+print(aviso1.titulo)
+print(aviso1.data)
+print(aviso1.tipo)</pre>
+<p>Podemos ler <code>aviso1.titulo</code> como: “o atributo <em>titulo</em> do objeto <em>aviso1</em>”.</p>
+
+<h2>6. Objetos diferentes, valores diferentes</h2>
+<pre>aviso2 = Aviso()
+aviso2.titulo = "Reunião"
+aviso2.data = "22/10/2026"
+aviso2.tipo = "reuniao"</pre>
+<p>A estrutura é a mesma, mas cada objeto guarda seus próprios valores.</p>
+
+<div class="card warn"><strong>Evite a confusão:</strong> a classe não é o objeto. <code>Aviso</code> é o modelo; <code>aviso1</code> e <code>aviso2</code> são objetos criados a partir dele.</div>
+
+<h2>7. Prática guiada</h2>
+<div class="card exercise">
+<p>Analise o código:</p>
+<pre>class Produto:
+    pass
+
+produto1 = Produto()
+produto1.nome = "Teclado"
+produto1.preco = 100
+
+produto2 = Produto()
+produto2.nome = "Mouse"
+produto2.preco = 50</pre>
+<p>Responda:</p>
+<ol>
+<li>Qual é a classe?</li>
+<li>Quais são os objetos?</li>
+<li>Quais são os atributos?</li>
+<li>Onde ocorre a instanciação?</li>
+</ol>
+<div class="answer"><strong>Confira:</strong> classe = <code>Produto</code>; objetos = <code>produto1</code> e <code>produto2</code>; atributos = <code>nome</code> e <code>preco</code>; instanciação = nas chamadas <code>Produto()</code>.</div>
+</div>
+
+<h2>8. Mini-desafio</h2>
+<p>Crie uma classe <code>Aluno</code>, depois crie dois objetos e atribua a cada um <code>nome</code>, <code>turma</code> e <code>matricula</code>.</p>
+
+<h2>Resumo</h2>
+<div class="card">
+<strong>Classe</strong> é o modelo. <strong>Objeto</strong> é uma ocorrência criada a partir da classe. <strong>Instanciação</strong> é o ato de criar esse objeto. <strong>Atributo</strong> é uma informação pertencente ao objeto.
+</div>
+<footer>Prof. Claudio Amado · Central de Avisos · Programação Aplicada II</footer>
+</main>
+</body>
+</html>
