@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08/10/2026 — POO: self e __init__</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0f1117;color:#e8eaf6;line-height:1.6}
+header{padding:38px 20px;background:linear-gradient(135deg,#4c1d95,#0f172a);border-bottom:1px solid #334155}
+.wrap{max-width:980px;margin:auto;padding:24px 20px 60px}.tag{display:inline-block;background:#7c3aed;color:white;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700}
+h1{font-size:34px;margin:12px 0 4px} h2{margin-top:34px;color:#ddd6fe} h3{color:#c4b5fd}
+.card{background:#171b2b;border:1px solid #2d3154;border-radius:14px;padding:20px;margin:18px 0}
+.goal{border-left:5px solid #22c55e}.warn{border-left:5px solid #f59e0b}.exercise{border-left:5px solid #8b5cf6}
+pre{background:#090b12;border:1px solid #2d3154;border-radius:10px;padding:16px;overflow:auto;color:#d1fae5;font-family:Consolas,monospace}
+code{font-family:Consolas,monospace;color:#bfdbfe}.step{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;margin:12px 0}.n{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#7c3aed;font-weight:800}
+.answer{background:#111827;border-radius:10px;padding:12px 16px;margin-top:10px}
+footer{margin-top:40px;color:#94a3b8;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="tag">CEPEF · 3º A · Programação Aplicada II</span><h1>POO do zero: <code>self</code> e <code>__init__</code></h1><p>2º tempo · 08/10/2026 · 07:50–08:40</p></div></header>
+<main class="wrap">
+<div class="card goal"><strong>Objetivo da aula:</strong> entender por que usamos <code>__init__</code>, o que <code>self</code> representa e como os valores recebidos na criação do objeto passam a ser guardados em seus atributos.</div>
+
+<h2>1. O problema da forma anterior</h2>
+<pre>aviso1 = Aviso()
+aviso1.titulo = "Prova"
+aviso1.data = "20/10/2026"
+aviso1.tipo = "prova"</pre>
+<p>Funciona, mas precisamos criar o objeto e depois preencher cada atributo. Também podemos esquecer algum dado.</p>
+
+<h2>2. Entrando o <code>__init__</code></h2>
+<p>O <code>__init__</code> é executado quando um novo objeto é criado e serve para inicializar seus dados.</p>
+<pre>class Aviso:
+    def __init__(self):
+        print("Um aviso foi criado")
+
+aviso1 = Aviso()</pre>
+<p>Ao executar <code>Aviso()</code>, o Python cria o objeto e chama o <code>__init__</code> automaticamente.</p>
+
+<h2>3. Recebendo os dados na criação</h2>
+<pre>class Aviso:
+    def __init__(self, titulo, data, tipo):
+        self.titulo = titulo
+        self.data = data
+        self.tipo = tipo</pre>
+<p>Agora podemos criar o objeto já informando seus valores:</p>
+<pre>aviso1 = Aviso(
+    "Prova de Programação",
+    "20/10/2026",
+    "prova"
+)</pre>
+
+<h2>4. O que é <code>self</code>?</h2>
+<p><code>self</code> representa o <strong>próprio objeto</strong> que está sendo inicializado ou utilizado.</p>
+<div class="step"><div class="n">1</div><div>Criamos <code>aviso1 = Aviso(...)</code>.</div></div>
+<div class="step"><div class="n">2</div><div>Durante essa inicialização, <code>self</code> representa <code>aviso1</code>.</div></div>
+<div class="step"><div class="n">3</div><div><code>self.titulo = titulo</code> guarda o valor recebido dentro daquele objeto.</div></div>
+
+<h2>5. A linha mais importante</h2>
+<pre>self.titulo = titulo</pre>
+<p>À direita, <code>titulo</code> é o valor recebido pelo parâmetro. À esquerda, <code>self.titulo</code> é o atributo que ficará armazenado no objeto.</p>
+
+<div class="card warn"><strong>Importante:</strong> você não escreve <code>self</code> ao criar o objeto. Em <code>Aviso("Prova", "20/10/2026", "prova")</code>, o Python fornece a referência ao objeto automaticamente.</div>
+
+<h2>6. Objetos diferentes mantêm seus próprios valores</h2>
+<pre>aviso1 = Aviso("Prova", "20/10/2026", "prova")
+aviso2 = Aviso("Reunião", "22/10/2026", "reuniao")
+
+print(aviso1.titulo)  # Prova
+print(aviso2.titulo)  # Reunião</pre>
+
+<h2>7. Leia o código em português</h2>
+<pre>class Aviso:
+    def __init__(self, titulo, data, tipo):
+        self.titulo = titulo
+        self.data = data
+        self.tipo = tipo</pre>
+<div class="card">“Estou criando uma classe chamada <strong>Aviso</strong>. Quando um objeto for criado, ele receberá título, data e tipo. Esses valores serão guardados nos atributos desse próprio objeto.”</div>
+
+<h2>8. Prática</h2>
+<div class="card exercise">
+<p>Complete:</p>
+<pre>class Livro:
+    def __init__(____, titulo, autor):
+        ____.titulo = titulo
+        ____.autor = autor
+
+livro1 = Livro("Dom Casmurro", "Machado de Assis")</pre>
+<p>Depois responda: qual é a classe? qual é o objeto? quais são os atributos? qual é o papel de <code>self</code>? para que serve o <code>__init__</code>?</p>
+<div class="answer"><strong>Resposta:</strong> preencher os três espaços com <code>self</code>. Classe = <code>Livro</code>; objeto = <code>livro1</code>; atributos = <code>titulo</code> e <code>autor</code>; <code>self</code> representa o próprio objeto; <code>__init__</code> inicializa seus dados.</div>
+</div>
+
+<h2>9. Código-base para guardar</h2>
+<pre>class Aviso:
+    def __init__(self, titulo, data, tipo):
+        self.titulo = titulo
+        self.data = data
+        self.tipo = tipo
+
+aviso1 = Aviso("Prova", "20/10/2026", "prova")</pre>
+
+<h2>Resumo</h2>
+<div class="card"><strong><code>__init__</code></strong> inicializa o objeto. <strong><code>self</code></strong> representa o próprio objeto. <strong><code>self.atributo = valor</code></strong> guarda um valor dentro desse objeto. Cada instância mantém seus próprios dados.</div>
+<footer>Prof. Claudio Amado · Central de Avisos · Programação Aplicada II</footer>
+</main>
+</body>
+</html>
