@@ -1,50 +1,50 @@
-import tkinter as tk
-from tkinter import ttk
-from datetime import datetime
-class Aviso:
-    def __init__(self, codigo, dados):
-        self.codigo, self.dados = codigo, dados.copy()
-avisos, proximo_id, selecionado = [], 1, None
-AZUL, FUNDO, BRANCO = '#18365B', '#EAF1F9', '#FFFFFF'
-filtro_titulo, filtro_categoria = '', 'Todas'
-janela = tk.Tk()
+import tkinter as tk  # Biblioteca para criar janelas, campos e botoes.
+from tkinter import ttk  # Componentes extras: tabela e caixas de selecao.
+from datetime import datetime  # Valida as datas digitadas no formulario.
+class Aviso:  # POO: a classe e o molde de cada aviso escolar.
+    def __init__(self, codigo, dados):  # Construtor executado ao criar um novo objeto Aviso.
+        self.codigo, self.dados = codigo, dados.copy()  # self guarda os atributos do objeto; copy evita compartilhar o dicionario.
+avisos, proximo_id, selecionado = [], 1, None  # Lista em memoria, proximo ID e registro selecionado.
+AZUL, FUNDO, BRANCO = '#18365B', '#EAF1F9', '#FFFFFF'  # Paleta visual do sistema.
+filtro_titulo, filtro_categoria = '', 'Todas'  # Inicialmente, mostramos todos os avisos.
+janela = tk.Tk()  # Cria a janela principal do programa.
 janela.title('CEPEF | Central de Avisos'); janela.geometry('1000x710')
 janela.configure(bg=FUNDO)
 tk.Label(janela, text='CENTRAL DE AVISOS  |  CEPEF', bg=AZUL,
          fg=BRANCO, font=('Arial', 18, 'bold'), pady=15).pack(fill='x')
-painel = tk.LabelFrame(janela, text=' Dados do aviso ', bg=BRANCO,
+painel = tk.LabelFrame(janela, text=' Dados do aviso ', bg=BRANCO,  # LabelFrame agrupa os dados do formulario.
                       fg=AZUL, padx=12, pady=8)
 painel.pack(fill='x', padx=15, pady=10)
-nomes = ['Titulo', 'Categoria', 'Prioridade', 'Publico-alvo',
+nomes = ['Titulo', 'Categoria', 'Prioridade', 'Publico-alvo',  # Campos que cada aviso possui.
          'Responsavel', 'Data (dd/mm/aaaa)', 'Situacao', 'Descricao']
-valores = {nome: tk.StringVar() for nome in nomes}
-opcoes = {'Categoria': ['Evento', 'Atividade', 'Comunicado'],
+valores = {nome: tk.StringVar() for nome in nomes}  # Cada StringVar conecta o campo visual a um valor Python.
+opcoes = {'Categoria': ['Evento', 'Atividade', 'Comunicado'],  # Valores aceitos nos campos de lista suspensa.
           'Prioridade': ['Normal', 'Alta', 'Urgente'],
           'Publico-alvo': ['Alunos', 'Professores', 'Comunidade', 'Todos'],
           'Situacao': ['Rascunho', 'Publicado']}
-for i, nome in enumerate(nomes):
-    linha, coluna = divmod(i, 3)
+for i, nome in enumerate(nomes):  # Gera os oito campos sem repetir o formulario manualmente.
+    linha, coluna = divmod(i, 3)  # Organiza os campos em tres colunas.
     tk.Label(painel, text=nome, bg=BRANCO, fg=AZUL).grid(
         row=linha * 2, column=coluna, sticky='w', padx=5)
-    if nome in opcoes:
+    if nome in opcoes:  # Campo com opcoes: criar Combobox.
         campo = ttk.Combobox(painel, textvariable=valores[nome],
                              values=opcoes[nome], state='readonly')
-    else:
+    else:  # Campo livre: criar Entry para digitacao.
         campo = tk.Entry(painel, textvariable=valores[nome])
     campo.grid(row=linha * 2 + 1, column=coluna, padx=5, pady=5, sticky='ew')
-for i in range(3):
+for i in range(3):  # Ajusta a largura de cada coluna no Pyroom.
     painel.columnconfigure(i, weight=1)  # Compativel com Pyroom.
-mensagem = tk.StringVar(value='Novo cadastro: preencha os campos.')
+mensagem = tk.StringVar(value='Novo cadastro: preencha os campos.')  # Mensagem de retorno ao usuario.
 tk.Label(janela, textvariable=mensagem, bg=FUNDO, fg=AZUL).pack(anchor='w', padx=20)
-def modo_edicao(editar):
+def modo_edicao(editar):  # Controla habilitacao dos botoes em cada estado.
     botoes['CADASTRAR'].configure(state='disabled' if editar else 'normal')
     for nome in ('ALTERAR', 'EXCLUIR'):
         botoes[nome].configure(state='normal' if editar else 'disabled')
     botoes['LIMPAR'].configure(state='normal' if editar else 'disabled')
-def atualizar():
+def atualizar():  # READ: atualiza a grade e aplica filtros.
     for item in tabela.get_children():
         tabela.delete(item)
-    for aviso in avisos:
+    for aviso in avisos:  # Percorre os objetos existentes na lista.
         d = aviso.dados
         if filtro_titulo.lower() not in d['Titulo'].lower():
             continue
@@ -53,7 +53,7 @@ def atualizar():
         tabela.insert('', 'end', iid=str(aviso.codigo), values=(
             aviso.codigo, d['Titulo'], d['Categoria'], d['Prioridade'],
             d['Publico-alvo'], d['Situacao']))
-def limpar():
+def limpar():  # Remove selecao e restaura o modo cadastro.
     global selecionado
     selecionado = None
     for var in valores.values():
@@ -65,8 +65,8 @@ def limpar():
         tabela.selection_remove(item)
     modo_edicao(False)
     mensagem.set('Modo cadastro: CADASTRAR habilitado.')
-def ler():
-    d = {nome: var.get().strip() for nome, var in valores.items()}
+def ler():  # Valida os dados antes de cadastrar ou alterar.
+    d = {nome: var.get().strip() for nome, var in valores.items()}  # Le os campos e elimina espacos extras.
     if not d['Titulo'] or not d['Responsavel']:
         mensagem.set('Titulo e Responsavel sao obrigatorios.'); return None
     if d['Data (dd/mm/aaaa)']:
@@ -75,48 +75,48 @@ def ler():
         except ValueError:
             mensagem.set('Data invalida: use dd/mm/aaaa.'); return None
     return d
-def cadastrar():
+def cadastrar():  # CREATE: cria um novo objeto e adiciona ao vetor.
     global proximo_id
-    if selecionado is not None: return  # Dupla protecao contra duplicacao.
+    if selecionado is not None: return  # Impede cadastrar por engano enquanto editamos um objeto.
     dados = ler()
     if dados is None: return
-    avisos.append(Aviso(proximo_id, dados))
+    avisos.append(Aviso(proximo_id, dados))  # Instancia Aviso e guarda o objeto na lista.
     codigo, proximo_id = proximo_id, proximo_id + 1
     atualizar(); limpar()
     mensagem.set('Aviso %s cadastrado!' % codigo)
-def escolher(event=None):
+def escolher(event=None):  # Ao selecionar uma linha, abre seus dados para edicao.
     global selecionado
     linhas = tabela.selection()
     if not linhas: return
     codigo = int(linhas[0])
-    aviso = next((a for a in avisos if a.codigo == codigo), None)
+    aviso = next((a for a in avisos if a.codigo == codigo), None)  # Encontra o objeto pelo seu identificador.
     if aviso is None: return
     selecionado = codigo
     for nome in nomes:
         valores[nome].set(aviso.dados[nome])
     modo_edicao(True)
     mensagem.set('Aviso %s selecionado: altere, exclua ou limpe.' % codigo)
-def alterar():
+def alterar():  # UPDATE: modifica o objeto selecionado, sem criar outro.
     if selecionado is None: return
     dados = ler()
     if dados is None: return
     for aviso in avisos:
         if aviso.codigo == selecionado:
-            aviso.dados = dados.copy()
+            aviso.dados = dados.copy()  # Atualiza atributos, mantendo o mesmo codigo.
             codigo = selecionado
             atualizar(); limpar()
             mensagem.set('Aviso %s alterado!' % codigo)
             return
-def excluir():
+def excluir():  # DELETE: remove o aviso selecionado da lista.
     global avisos
     if selecionado is None: return
     codigo = selecionado
-    avisos = [a for a in avisos if a.codigo != codigo]
+    avisos = [a for a in avisos if a.codigo != codigo]  # Mantem os objetos cujo codigo e diferente do excluido.
     atualizar(); limpar()
     mensagem.set('Aviso %s excluido!' % codigo)
-def consultar():
+def consultar():  # READ com filtro: abre pesquisa por titulo e categoria.
     global filtro_titulo, filtro_categoria
-    busca = tk.Toplevel(janela)
+    busca = tk.Toplevel(janela)  # Cria janela secundaria de consulta.
     busca.title('Consultar avisos'); busca.geometry('350x210')
     busca.configure(bg=FUNDO)
     titulo = tk.StringVar(value=filtro_titulo); categoria = tk.StringVar(value=filtro_categoria)
@@ -125,7 +125,7 @@ def consultar():
     tk.Label(busca, text='Categoria:', bg=FUNDO).pack(pady=(9, 2))
     ttk.Combobox(busca, textvariable=categoria, state='readonly',
         values=['Todas'] + opcoes['Categoria'], width=31).pack()
-    def aplicar(reset=False):
+    def aplicar(reset=False):  # Aplica filtros ou restaura a lista completa.
         global filtro_titulo, filtro_categoria
         filtro_titulo = '' if reset else titulo.get().strip()
         filtro_categoria = 'Todas' if reset else categoria.get()
@@ -135,9 +135,9 @@ def consultar():
               command=aplicar).pack(side='left', padx=35, pady=15)
     tk.Button(busca, text='VER TODOS', bg='#576579', fg='white',
               command=lambda: aplicar(True)).pack(side='left', pady=15)
-barra = tk.Frame(janela, bg=FUNDO)
+barra = tk.Frame(janela, bg=FUNDO)  # Faixa com os cinco botoes do CRUD.
 barra.pack(fill='x', padx=16, pady=8)
-botoes = {}
+botoes = {}  # Guarda referencias aos botoes para habilitar/desabilitar.
 for texto, funcao, cor in [('CADASTRAR', cadastrar, '#147D52'),
                            ('CONSULTAR', consultar, '#1964A0'),
                            ('ALTERAR', alterar, '#C47A13'),
@@ -149,11 +149,11 @@ for texto, funcao, cor in [('CADASTRAR', cadastrar, '#147D52'),
 tk.Label(janela, text='AVISOS CADASTRADOS', bg=FUNDO,
          fg=AZUL, font=('Arial', 11, 'bold')).pack(anchor='w', padx=18)
 colunas = ('ID', 'Titulo', 'Categoria', 'Prioridade', 'Publico', 'Situacao')
-tabela = ttk.Treeview(janela, columns=colunas, show='headings', height=8)
+tabela = ttk.Treeview(janela, columns=colunas, show='headings', height=8)  # Grade que apresenta os objetos armazenados.
 for nome, largura in zip(colunas, [45, 300, 140, 110, 150, 120]):
     tabela.heading(nome, text=nome)
     tabela.column(nome, width=largura)
 tabela.pack(fill='both', expand=True, padx=18, pady=8)
-tabela.bind('<<TreeviewSelect>>', escolher)
+tabela.bind('<<TreeviewSelect>>', escolher)  # Clique em uma linha carrega o objeto para edicao.
 limpar()
-janela.mainloop()
+janela.mainloop()  # Mantem a interface ativa para receber eventos.
