@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratório CEPEF | CRUD de avisos com Supabase</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1325;--panel:#131f36;--panel2:#192943;--line:#30435e;--text:#f1f6ff;--muted:#b0c3db;--cyan:#43d7ce;--blue:#8ebaff;--warn:#ffd081;--bad:#ffa0a9}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0,#173757 0,transparent 42%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.5}
+a{color:#94eae8}button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;background:var(--cyan);color:#092124;font-weight:800;padding:11px 16px}button:hover{filter:brightness(1.08)}button:disabled{opacity:.48;cursor:not-allowed}.ghost{background:#284460;color:var(--text)}.danger{background:#753846;color:#fff}.secondary{background:#294b78;color:#fff}
+.shell{max-width:1160px;margin:auto;padding:24px 20px 70px}.eyebrow{letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-size:.75rem;font-weight:800}
+h1{font-size:clamp(2rem,5vw,3.5rem);margin:.2rem 0 .5rem;line-height:1.08;max-width:850px}h2{font-size:1.45rem;margin:0 0 12px}h3{margin:0 0 8px;font-size:1.08rem}p{margin:.3rem 0 .9rem}.sub{color:var(--muted);max-width:850px}.hero{padding:26px 0 24px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.chip{display:inline-block;background:#203851;border:1px solid #42637f;border-radius:99px;padding:6px 12px;color:#cde7fb;font-size:.82rem}
+.grid{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 10px 35px #0002}.panel + .panel{margin-top:18px}
+.field{display:block;margin:12px 0 4px;color:#d5e6f6;font-weight:700;font-size:.9rem}
+input:not([type=checkbox]),textarea{width:100%;background:#0b1830;color:var(--text);border:1px solid #526886;border-radius:10px;padding:12px;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 2px #43d7ce33}
+textarea{min-height:124px;resize:vertical}.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:16px}
+.note{background:#19324b;border-left:4px solid var(--cyan);padding:13px 16px;border-radius:10px;color:#d7e8fa;margin:15px 0}
+.warning{border-left-color:var(--warn)}.error{border-left-color:var(--bad)}
+#status{min-height:42px;margin:14px 0;white-space:pre-wrap}#status[data-kind=error]{color:#ffc1c7}#status[data-kind=success]{color:#7af0c9}
+small,.muted{color:var(--muted)}.list{display:grid;gap:12px;margin-top:18px}.item{border:1px solid #38516c;border-radius:12px;padding:15px;background:#14253d}.item-head{display:flex;justify-content:space-between;align-items:start;gap:12px}.item h3{word-break:break-word}.item p{white-space:pre-wrap;overflow-wrap:anywhere}.tag{font-size:.75rem;background:#224c4e;color:#a3ffda;border-radius:99px;padding:3px 9px;white-space:nowrap}.tag.off{background:#513d43;color:#ffd2d2}
+code{color:#a8e5ff}pre{background:#081426;padding:16px;border-radius:12px;border:1px solid #294361;overflow-x:auto;font-size:.87rem;line-height:1.5}
+.steps{counter-reset:s;display:grid;gap:12px;padding:0;list-style:none}.steps li{padding:14px 16px;background:#142b45;border-radius:10px;border:1px solid #284660}.steps li:before{counter-increment:s;content:counter(s);display:inline-grid;place-items:center;margin-right:10px;background:var(--cyan);color:#0b2232;width:27px;height:27px;border-radius:8px;font-weight:900}
+.hide{display:none!important}footer{margin-top:34px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.shell{padding:18px 14px 55px}.panel{padding:17px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.min.js"></script>
+</head>
+<body><main class="shell">
+<header class="hero">
+  <div class="eyebrow">CEPEF · Programação Aplicada II · 3º ano A</div>
+  <h1>CRUD completo de avisos com Supabase</h1>
+  <p class="sub">Laboratório prático de criação, leitura, atualização e exclusão de registros reais. Banco PostgreSQL, esquema <code>"CEPEF"</code>, tabela <code>avisos</code>.</p>
+  <div class="chips"><span class="chip">CREATE · INSERT</span><span class="chip">READ · SELECT</span><span class="chip">UPDATE · UPDATE</span><span class="chip">DELETE · DELETE</span><span class="chip">RLS: dados por aluno</span></div>
+</header>
+<div class="grid">
+<section>
+ <div class="panel">
+  <h2>1. Entrar no laboratório</h2>
+  <p class="muted">Cada estudante precisa de uma conta Supabase Auth. A chave utilizada neste site é pública; a segurança dos registros é controlada pelas políticas RLS.</p>
+  <div id="auth-off">
+   <label class="field" for="email">E-mail</label><input id="email" type="email" autocomplete="email" placeholder="seu-email@exemplo.com">
+   <label class="field" for="senha">Senha (mínimo de 6 caracteres)</label><input id="senha" type="password" autocomplete="current-password" minlength="6">
+   <div class="actions"><button type="button" id="login">Entrar</button><button type="button" class="ghost" id="signup">Criar conta</button></div>
+   <p><small>Se a confirmação de e-mail estiver ativa, confirme a mensagem recebida antes de entrar. Não use senha de outro serviço.</small></p>
+  </div>
+  <div id="auth-on" class="hide"><p>Conectado como <strong id="user-email"></strong></p><button id="logout" class="ghost">Sair</button></div>
+  <div id="status" role="status" aria-live="polite"></div>
+ </div>
+ <div class="panel" id="editor">
+  <h2>2. Cadastrar ou editar aviso</h2>
+  <p class="muted" id="editor-mode">Modo: criar novo aviso</p>
+  <form id="form-aviso">
+   <label class="field" for="titulo">Título</label><input id="titulo" type="text" maxlength="150" required placeholder="Ex.: Entrega da atividade">
+   <label class="field" for="mensagem">Mensagem</label><textarea id="mensagem" required placeholder="Descreva o aviso..."></textarea>
+   <label class="field"><input id="ativo" type="checkbox" checked> Aviso ativo</label>
+   <div class="actions"><button id="save" type="submit">Salvar novo aviso</button><button class="ghost" type="button" id="cancel">Limpar / cancelar edição</button></div>
+  </form>
+  <p><small>O <code>id</code> e a <code>data_publicacao</code> são preenchidos pelo banco. O campo técnico <code>usuario_id</code> é atribuído à sessão autenticada.</small></p>
+ </div>
+</section>
+<section>
+ <div class="panel">
+  <div class="item-head"><div><h2>3. Meus avisos</h2><p class="muted">Apenas registros associados à sua conta.</p></div><button class="secondary" id="refresh" type="button">Atualizar lista</button></div>
+  <div class="note" id="empty">Entre com sua conta para carregar os avisos.</div>
+  <div class="list" id="list"></div>
+ </div>
+ <div class="panel">
+  <h2>4. O que está acontecendo no banco?</h2>
+  <ol class="steps">
+   <li>Ao salvar um aviso novo, o navegador envia um <code>INSERT</code> com título, mensagem e status.</li>
+   <li>Ao atualizar a lista, o Supabase executa <code>SELECT</code>. O RLS limita a leitura aos seus registros.</li>
+   <li>Ao clicar em <strong>Editar</strong>, o formulário recebe os dados; salvar executa <code>UPDATE</code> filtrado pelo ID.</li>
+   <li>Ao clicar em <strong>Excluir</strong> e confirmar, é feito um <code>DELETE</code> filtrado pelo ID.</li>
+  </ol>
+  <div class="note warning"><strong>Segurança:</strong> nunca coloque a chave <code>service_role</code> em HTML. A chave pública não substitui a autenticação. Sem uma sessão válida, as políticas impedem a modificação de dados.</div>
+ </div>
+</section>
+</div>
+<section class="panel" style="margin-top:18px">
+<h2>Roteiro pedagógico da prática</h2>
+<p><strong>Desafio 1:</strong> entre, crie um aviso com um título relacionado à turma e confirme que ele aparece na lista. <strong>Desafio 2:</strong> altere o texto e desative o aviso. <strong>Desafio 3:</strong> atualize a lista e comprove que a alteração persistiu. <strong>Desafio 4:</strong> exclua o aviso de teste e confirme que desapareceu.</p>
+<pre><code>// Exemplos equivalentes usando supabase-js
+const tabela = client.schema('CEPEF').from('avisos');
+
+// CREATE
+await tabela.insert({ titulo: 'Atividade', mensagem: 'Entregar sexta', ativo: true });
+
+// READ
+await tabela.select('id,titulo,mensagem,data_publicacao,ativo');
+
+// UPDATE — sempre identificar o registro!
+await tabela.update({ titulo: 'Atividade revisada' }).eq('id', 123);
+
+// DELETE — nunca excluir sem filtro!
+await tabela.delete().eq('id', 123);</code></pre>
+<p><strong>Evidência da aprendizagem:</strong> anote o ID do aviso criado, descreva a diferença entre INSERT e UPDATE e explique por que o DELETE precisa de confirmação e filtro.</p>
+<p class="muted">Plano B sem Internet: simule uma tabela com três linhas em papel e marque, passo a passo, os estados após INSERT, SELECT, UPDATE e DELETE.</p>
+</section>
+<footer>
+  <p>CEPEF · Aula prática de CRUD · Professor Claudio Amado · Esquema alvo: <code>CEPEF</code>, nunca <code>public</code>.</p>
+  <p>Recursos da prática: <a href="https://supabase.com/dashboard/project/pvcptembajzacuplviwr/editor" target="_blank" rel="noopener">Tabela no Supabase</a> · <a href="https://supabase.com/dashboard/project/pvcptembajzacuplviwr/integrations/data_api/settings" target="_blank" rel="noopener">Configurar Data API</a> · <a href="https://supabase.com/docs/reference/javascript/start" target="_blank" rel="noopener">Documentação supabase-js</a> · <a href="index.html">Índice das aulas</a>.</p>
+</footer>
+</main>
+<script>
+'use strict';
+(() => {
+  const PROJECT_URL = 'https://pvcptembajzacuplviwr.supabase.co';
+  const PUBLIC_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2Y3B0ZW1iYWp6YWN1cGx2aXdyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk3ODAyNjQsImV4cCI6MjA3NTM1NjI2NH0.KFfODan2TLh8Jqs1SsDuBys_I83gEuwty9KJ1ckijqM'; // chave anon pública, NÃO service_role
+  const el = id => document.getElementById(id);
+  const state = { client:null, user:null, editing:null, busy:false, rows:[] };
+  const setMessage = (message,kind='info') => { el('status').textContent=message;el('status').dataset.kind=kind; };
+  const readable = error => {
+    const message = String(error?.message||error||'Erro desconhecido');
+    if (/schema.*exposed|schema.*not.*exposed|pgrst106/i.test(message)) return 'Esquema CEPEF não exposto na Data API. Abra as configurações da Data API e adicione CEPEF aos esquemas expostos.';
+    if (/permission denied|42501|row-level security/i.test(message)) return 'Acesso negado por permissões/RLS. Verifique se fez login e se o aviso pertence à sua conta. Detalhe: '+message;
+    if (/email not confirmed/i.test(message)) return 'Confirme seu e-mail e tente entrar novamente.';
+    return message;
+  };
+  const setBusy = value => {
+    state.busy=value;
+    ['login','signup','logout','refresh','save'].forEach(id => {if(el(id))el(id).disabled=value;});
+  };
+  function clearEditor(){
+    state.editing=null;
+    el('form-aviso').reset();
+    el('ativo').checked=true;
+    el('editor-mode').textContent='Modo: criar novo aviso';
+    el('save').textContent='Salvar novo aviso';
+  }
+  function renderAuth(){
+    const logged=Boolean(state.user);
+    el('auth-off').classList.toggle('hide',logged);
+    el('auth-on').classList.toggle('hide',!logged);
+    el('user-email').textContent=state.user?.email||'';
+    el('editor').querySelectorAll('input,textarea,button').forEach(x=>x.disabled=!logged || state.busy);
+    el('refresh').disabled=!logged || state.busy;
+    if(!logged){el('list').replaceChildren();el('empty').textContent='Entre com sua conta para carregar os avisos.';el('empty').classList.remove('hide');clearEditor();}
+  }
+  function itemButton(text,css,action){
+    const b=document.createElement('button');b.type='button';b.className=css;b.textContent=text;b.addEventListener('click',action);return b;
+  }
+  function renderRows(rows){
+    state.rows=rows||[];
+    const list=el('list');list.replaceChildren();
+    el('empty').classList.toggle('hide',state.rows.length>0);
+    if(!state.rows.length) el('empty').textContent='Nenhum aviso seu foi encontrado. Crie o primeiro registro.';
+    state.rows.forEach(row=>{
+      const card=document.createElement('article');card.className='item';
+      const head=document.createElement('div');head.className='item-head';
+      const title=document.createElement('h3');title.textContent='#'+row.id+' · '+row.titulo;
+      const tag=document.createElement('span');tag.className='tag'+(row.ativo?'':' off');tag.textContent=row.ativo?'ATIVO':'INATIVO';
+      head.append(title,tag);
+      const body=document.createElement('p');body.textContent=row.mensagem;
+      const date=document.createElement('small');date.textContent='Publicado: '+(row.data_publicacao?new Date(row.data_publicacao).toLocaleString('pt-BR'):'sem data');
+      const actions=document.createElement('div');actions.className='actions';
+      actions.append(
+        itemButton('Editar','secondary',()=>{state.editing=row.id;el('titulo').value=row.titulo;el('mensagem').value=row.mensagem;el('ativo').checked=Boolean(row.ativo);el('editor-mode').textContent='Editando o aviso #'+row.id;el('save').textContent='Salvar alterações';el('editor').scrollIntoView({behavior:'smooth',block:'start'});}),
+        itemButton('Excluir','danger',()=>remove(row.id,row.titulo))
+      );
+      card.append(head,body,date,actions);list.append(card);
+    });
+  }
+  async function listRows(){
+    if(!state.user)return;
+    const {data,error}=await state.client.schema('CEPEF').from('avisos')
+      .select('id,titulo,mensagem,data_publicacao,ativo').order('id',{ascending:false});
+    if(error)throw error;
+    renderRows(data);
+  }
+  async function remove(id,title){
+    if(state.busy||!state.user)return;
+    if(!confirm('Excluir definitivamente o aviso #'+id+' ('+title+')?'))return;
+    setBusy(true);
+    try{
+      const {data,error}=await state.client.schema('CEPEF').from('avisos').delete().eq('id',id).select('id').maybeSingle();
+      if(error)throw error;
+      if(!data)throw new Error('Registro não encontrado ou sem permissão para excluir.');
+      if(state.editing===id)clearEditor();
+      await listRows();setMessage('DELETE realizado: aviso #'+id+' removido.','success');
+    }catch(err){setMessage(readable(err),'error')}finally{setBusy(false);renderAuth();}
+  }
+  async function save(event){
+    event.preventDefault();if(state.busy||!state.user)return;
+    const titulo=el('titulo').value.trim(),mensagem=el('mensagem').value.trim(),ativo=el('ativo').checked;
+    if(!titulo||!mensagem){setMessage('Preencha título e mensagem.','error');return;}
+    const editing=state.editing;
+    setBusy(true);
+    try{
+      const table=state.client.schema('CEPEF').from('avisos');
+      let data,error;
+      if(editing===null){
+        ({data,error}=await table.insert({titulo,mensagem,ativo}).select('id').single());
+      }else{
+        ({data,error}=await table.update({titulo,mensagem,ativo}).eq('id',editing).select('id').maybeSingle());
+      }
+      if(error)throw error;
+      if(!data)throw new Error('Nenhum registro alterado. Verifique o ID e a permissão de acesso.');
+      clearEditor();await listRows();
+      setMessage((editing===null?'INSERT':'UPDATE')+' realizado com sucesso no aviso #'+data.id+'.','success');
+    }catch(err){setMessage(readable(err),'error')}finally{setBusy(false);renderAuth();}
+  }
+  async function login(signup){
+    if(state.busy)return;
+    const email=el('email').value.trim(),password=el('senha').value;
+    if(!email||password.length<6){setMessage('Informe um e-mail válido e senha de pelo menos 6 caracteres.','error');return;}
+    setBusy(true);
+    try{
+      if(signup){
+        const {data,error}=await state.client.auth.signUp({email,password});
+        if(error)throw error;
+        setMessage(data.session?'Conta criada, você já pode usar o CRUD.':'Cadastro solicitado. Verifique seu e-mail; se a confirmação estiver habilitada, confirme antes de entrar.','success');
+      }else{
+        const {error}=await state.client.auth.signInWithPassword({email,password});
+        if(error)throw error;
+        setMessage('Login realizado. Seus avisos foram carregados.','success');
+      }
+    }catch(err){setMessage(readable(err),'error')}finally{setBusy(false);}
+  }
+  async function initialize(){
+    if(!window.supabase?.createClient){setMessage('Falha ao carregar supabase-js. Verifique a conexão com a Internet ou tente recarregar a página.','error');return;}
+    state.client=window.supabase.createClient(PROJECT_URL,PUBLIC_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    el('login').addEventListener('click',()=>login(false));
+    el('signup').addEventListener('click',()=>login(true));
+    el('logout').addEventListener('click',async()=>{setBusy(true);const {error}=await state.client.auth.signOut();setBusy(false);if(error)setMessage(readable(error),'error');else setMessage('Sessão encerrada.','success');});
+    el('refresh').addEventListener('click',async()=>{setBusy(true);try{await listRows();setMessage('SELECT concluído: lista atualizada.','success')}catch(err){setMessage(readable(err),'error')}finally{setBusy(false);renderAuth();}});
+    el('cancel').addEventListener('click',clearEditor);
+    el('form-aviso').addEventListener('submit',save);
+    state.client.auth.onAuthStateChange((event,session)=>{
+      state.user=session?.user||null;
+      renderAuth();
+      if(state.user&&['INITIAL_SESSION','SIGNED_IN','TOKEN_REFRESHED'].includes(event)){
+        setTimeout(()=>listRows().catch(e=>setMessage(readable(e),'error')),0);
+      }
+    });
+    const {data,error}=await state.client.auth.getSession();
+    if(error)setMessage(readable(error),'error');
+    state.user=data?.session?.user||null;renderAuth();
+    if(state.user)try{await listRows()}catch(e){setMessage(readable(e),'error')}
+    else setMessage('Entre ou crie uma conta para começar.');
+  }
+  initialize().catch(e=>setMessage(readable(e),'error'));
+})();
+</script>
+</body></html>
